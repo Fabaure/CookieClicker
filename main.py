@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import PhotoImage
-from Clicker import Cookie
+from Cookie import Cookie
 from background import Background
 
 
@@ -10,7 +10,6 @@ class CookieClickerApp:
         self.background = Background(master)
         self.cookie = Cookie(master)
 
-        # Positionnement du cookie au centre de la fenêtre
         self.master.grid_rowconfigure(0, weight=1)
         self.master.grid_columnconfigure(0, weight=1)
 
