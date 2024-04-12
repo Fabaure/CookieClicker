@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import PhotoImage
 from Cookie import Cookie
 from background import Background
+from minijeu1 import Minijeu1
 
 
 class CookieClickerApp:
@@ -9,7 +10,7 @@ class CookieClickerApp:
         self.master = master
         self.background = Background(master)
         self.cookie = Cookie(master)
-
+        #self.minijeu1 = Minijeu1(master)
         self.master.grid_rowconfigure(0, weight=1)
         self.master.grid_columnconfigure(0, weight=1)
 
