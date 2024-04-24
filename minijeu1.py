@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import PhotoImage
 
+
 class Minijeu1:
 
     def __init__(self, master):
