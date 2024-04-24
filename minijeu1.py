@@ -47,11 +47,26 @@ class Minijeu1:
             self.timer_label.config(text="Temps restant: " + str(count))
             self.master.after(1000, self.countdown, count - 1)
         else:
+            self.show_reward()
             self.end_game()
+
+    def show_reward(self):
+        if self.cookies >= 300:
+            reward = "Vous avez débloqué le niveau expert !"
+        elif self.cookies >= 200:
+            reward = "Vous avez débloqué le niveau intermédiaire !"
+        elif self.cookies >= 100:
+            reward = "Vous avez débloqué le niveau débutant !"
+        else:
+            reward = "Vous pouvez mieux faire !"
+        reward_label = tk.Label(self.master, text=reward)
+        reward_label.grid(row=3, column=0, pady=10)
 
     def end_game(self):
         self.game_started = False
         self.cookie_button.config(state="disabled")
         self.start_button.grid()
         self.timer_label.grid_forget()
-        print("Le temps est écoulé! Vous avez obtenu", self.cookies, "cookies.")
+
+
+
