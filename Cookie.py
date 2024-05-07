@@ -1,13 +1,16 @@
 import tkinter as tk
 from tkinter import PhotoImage
+from Statistiques import Statistiques
 
 
 class Cookie:
-    def __init__(self, master):
+    def __init__(self, master, stat_instance):
         self.master = master
+        self.stat_instance = stat_instance
         self.image = PhotoImage(file="cookie.png").zoom(2).subsample(4)
         self.cookie_count = 0
         self.cookie_multip = 1
+        self.clique = 0
         self.create_widgets()
 
     def create_widgets(self):
@@ -21,6 +24,9 @@ class Cookie:
         self.cookie_button.pack()
 
     def add_cookie(self):
+        self.stat_instance.stat_clique += 1
         self.cookie_count += self.cookie_multip
+        self.stat_instance.stat_cookie = self.cookie_count
         self.label_cookie_count.config(text="Cookies : " + str(self.cookie_count))
-
+        self.stat_instance.label_clique_nbr.config(text="Nombres de cliques : " + str(self.stat_instance.stat_clique))
+        self.stat_instance.label_cookie_nbr.config(text="Nombres de cookie total : " + str(self.stat_instance.stat_cookie))
