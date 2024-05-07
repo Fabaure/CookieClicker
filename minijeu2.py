@@ -116,8 +116,3 @@ class Minijeu2:
         self.monstre_button.pack_forget()
         self.monstre_niveau2_button.pack_forget()
         self.monstre_niveau3_button.pack_forget()
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = Minijeu2(root)
-    root.mainloop()
