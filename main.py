@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import PhotoImage
-from Cookie import Cookie
 from application import Application
 from minijeu1 import Minijeu1
 
@@ -9,7 +8,9 @@ from minijeu1 import Minijeu1
 class CookieClickerApp:
     def __init__(self, master):
         self.master = master
+        self.master.withdraw()
         self.application = Application(master)
+        self.application.Popup()
 
 
 if __name__ == "__main__":
