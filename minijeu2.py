@@ -1,10 +1,13 @@
 import tkinter as tk
 from tkinter import PhotoImage
+from Cookie import Cookie
 
 class Minijeu2:
 
-    def __init__(self, master):
+    def __init__(self, master, stat_instance, cookie_instance):
         self.master = master
+        self.stat_instance = stat_instance
+        self.cookie_instance = cookie_instance
         self.master.title("Sauve ton cookie!")
         self.master.geometry("600x600")
 
