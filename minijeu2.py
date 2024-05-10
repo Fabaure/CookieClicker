@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import PhotoImage
-from Cookie import Cookie
-
+from math import *
 class Minijeu2:
 
     def __init__(self, master, stat_instance, cookie_instance):
@@ -11,7 +10,8 @@ class Minijeu2:
         self.master.title("Sauve ton cookie!")
         self.master.geometry("600x600")
 
-        self.cookies = 0
+        self.cookie_reward = 0
+        self.level = 0
         self.game_started = False
         self.monstre_niveau1_clicks = 0
         self.monstre_niveau2_clicks = 0
@@ -54,7 +54,7 @@ class Minijeu2:
             self.niveau_label.config(text="Niveau: 1")
             self.start_button.pack_forget()
             self.timer_label.pack()
-            self.countdown(30)
+            self.countdown(60)
             self.monstre_niveau1()
 
     def countdown(self, count):
@@ -62,48 +62,84 @@ class Minijeu2:
             self.timer_label.config(text="Temps restant: " + str(count))
             self.master.after(1000, self.countdown, count - 1)
         else:
-            self.monstre_perdu()
-            self.end_game()
+            if self.game_started == True:
+                self.end_game()
 
     def monstre_niveau1(self):
         # Créer le bouton du monstre niveau 1
-        self.monstre_image = PhotoImage(file="monstrecontent.png").subsample(3, 3)
+        self.monstre_image = PhotoImage(file="monstrecontent.png").subsample(4, 4)
         self.monstre_button = tk.Button(self.master, image=self.monstre_image, command=self.monstre_action, borderwidth=0)
         self.monstre_button.pack(pady=20, side="right", padx=30)
 
     def monstre_action(self):
         self.monstre_niveau1_clicks += 1  # Incrémenter le compteur de clics du monstre
-        if self.monstre_niveau1_clicks == 50:
+        if self.monstre_niveau1_clicks == 100:
+            self.level += 1
             self.monstre_button.pack_forget()  # Faire disparaître le bouton du monstre une fois que le compteur atteint 10
-            # Appeler une méthode pour faire apparaître un nouveau monstre (niveau 2)
             self.monstre_niveau2()
 
     def monstre_niveau2(self):
         # Créer le bouton du monstre niveau 2
-        self.monstre_niveau2_image = PhotoImage(file="monstredecu.png").subsample(1, 1)
+        self.monstre_niveau2_image = PhotoImage(file="monstredecu.png").subsample(2, 2)
         self.monstre_niveau2_button = tk.Button(self.master, image=self.monstre_niveau2_image, command=self.monstre_niveau2_action, borderwidth=0)
-        self.monstre_niveau2_button.pack(pady=20, side="right", padx=30)
+        self.monstre_niveau2_button.pack(pady=20, side="right")
 
     def monstre_niveau2_action(self):
         self.niveau_label.config(text="Niveau: 2")
-        self.monstre_niveau2_clicks += 1  # Incrémenter le compteur de clics du monstre niveau 2
-        if self.monstre_niveau2_clicks == 100:
+        self.monstre_niveau2_clicks += 1
+        # Incrémenter le compteur de clics du monstre niveau 2
+        if self.monstre_niveau2_clicks == 150:
+            self.level += 1
             self.monstre_niveau2_button.pack_forget()  # Faire disparaître le bouton du monstre niveau 2 une fois que le compteur atteint 10
-            # Appeler une méthode pour faire apparaître un nouveau monstre (niveau 3)
             self.monstre_niveau3()
 
     def monstre_niveau3(self):
         # Créer le bouton du monstre niveau 3
         self.monstre_niveau3_image = PhotoImage(file="monstreenerve.png").subsample(2, 2)
         self.monstre_niveau3_button = tk.Button(self.master, image=self.monstre_niveau3_image, command=self.monstre_niveau3_action, borderwidth=0)
-        self.monstre_niveau3_button.pack(pady=20, side="right", padx=30)
+        self.monstre_niveau3_button.pack(pady=20)
 
     def monstre_niveau3_action(self):
         self.niveau_label.config(text="Niveau: 3")
-        self.monstre_niveau3_clicks += 1  # Incrémenter le compteur de clics du monstre niveau 3
-        if self.monstre_niveau3_clicks == 150:
+        self.monstre_niveau3_clicks += 1
+        if self.monstre_niveau3_clicks == 200 :
+            self.level += 1
+            self.end_game()
+    def show_reward(self):
+        if self.level == 3:
             self.monstre_niveau3_button.pack_forget()  # Faire disparaître le bouton du monstre niveau 3 une fois que le compteur atteint 10
-            # Ajouter d'autres actions à effectuer lorsque le monstre niveau 3 disparaît
+            self.center_cookie()
+            self.cookie_reward = 5000 + ceil(self.level * 250)
+            self.cookie_instance.cookie_count += self.cookie_reward
+            reward = "Vous avez débloqué le niveau expert ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
+        elif self.level == 2:
+            self.monstre_niveau3_button.pack_forget()
+            self.cookie_reward = 1000 + ceil(self.level * 250)
+            self.cookie_instance.cookie_count += self.cookie_reward
+            reward = "Vous avez débloqué le niveau intermédiaire ! Vous avez gagné " + str(
+                self.cookie_reward) + "Cookies"
+
+            self.monstre_perdu()
+        elif self.level == 1:
+            self.monstre_niveau2_button.pack_forget()
+            self.cookie_reward = 500 + ceil(self.level * 250)
+            self.cookie_instance.cookie_count += self.cookie_reward
+            reward = "Vous avez débloqué le niveau débutant ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
+            self.monstre_perdu()
+        else:
+            self.monstre_button.pack_forget()
+            self.cookie_reward = 100 + ceil(self.level * 250)
+            self.cookie_instance.cookie_count += self.cookie_reward
+            reward = "Vous pouvez mieux faire ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
+            self.monstre_perdu()
+        reward_label = tk.Label(self.master, text=reward)
+        reward_label.pack(pady=10)
+        self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
+
+    def record(self):
+        if self.cookies >= self.stat_instance.record_mn1:
+            self.stat_instance.record_mn2 = self.cookie_reward
+            self.stat_instance.label_record_mn2.config(text="Record du mini-jeu 2 : " + str(self.stat_instance.record_mn2) + " Cookies")
 
     def monstre_perdu(self):
         # Afficher le monstre avec le cookie lors de la fin du jeu
@@ -112,10 +148,18 @@ class Minijeu2:
         self.monstre_perdu_label = tk.Label(self.master, image=self.monstre_perdu_image, borderwidth=0)
         self.monstre_perdu_label.pack(pady=20, padx=30)
 
+    def center_cookie(self):
+        # Remove the cookie label from its current position
+        self.cookie_label.pack_forget()
+
+        # Repack the cookie label in the middle of the window
+        self.cookie_label.pack(pady=20)
+
     def end_game(self):
+
+        self.show_reward()
+        self.record()
         self.game_started = False
         self.start_button.pack_forget()
         self.timer_label.pack_forget()
-        self.monstre_button.pack_forget()
-        self.monstre_niveau2_button.pack_forget()
-        self.monstre_niveau3_button.pack_forget()
+
