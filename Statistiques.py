@@ -1,12 +1,12 @@
 import tkinter as tk
 
-
 class Statistiques:
     def __init__(self, master):
         self.master = master
         self.stat_clique = 0
         self.stat_cookie = 0
         self.record_mn1 = 0
+        self.record_mn2 = 0  # Initialize record for mini-jeu 2
         self.create_widgets()
 
     def create_widgets(self):
@@ -24,3 +24,6 @@ class Statistiques:
 
         self.label_record_mn1 = tk.Label(self.stat_frame, text="Record du mini-jeu 1 : " + str(self.record_mn1) + " Cookie", font=("Courier", 15), fg="black", bg="white")
         self.label_record_mn1.pack(pady=2)
+
+        self.label_record_mn2 = tk.Label(self.stat_frame, text="Record du mini-jeu 2 : " + str(self.record_mn2) + " Cookie", font=("Courier", 15), fg="black", bg="white")
+        self.label_record_mn2.pack(pady=2)
