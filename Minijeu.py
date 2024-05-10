@@ -1,8 +1,6 @@
 import tkinter as tk
 from minijeu1 import Minijeu1
 from minijeu2 import  Minijeu2
-from Cookie import Cookie
-from Statistiques import Statistiques
 
 
 class Minijeu:
@@ -48,5 +46,5 @@ class Minijeu:
         minijeu2_window = tk.Toplevel(self.master)
         minijeu2_window.geometry("400x300")
         minijeu2_window.title("Minijeu 1")
-        Minijeu2(minijeu2_window, self.cookie_instance, self.stat_instance)
+        Minijeu2(minijeu2_window, self.stat_instance, self.cookie_instance)
         self.countdown2(15)
