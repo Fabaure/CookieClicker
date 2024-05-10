@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import PhotoImage
-from Cookie import Cookie
 from math import *
 
 
@@ -59,7 +58,7 @@ class Minijeu1:
             self.start_button.pack_forget()
             self.timer_label.pack()
             self.cookie_button.config(state="normal")
-            self.countdown(5)
+            self.countdown(30)
 
     def countdown(self, count):
         if count > 0:
