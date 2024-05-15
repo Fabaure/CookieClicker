@@ -17,12 +17,14 @@ class Application:
 
     def MainMenu(self):
         self.menu_root = tk.Toplevel()
+        self.menu_root.geometry("1280x720")
         self.menu_root.title("Cookie Clicker")
-        self.menu_root.attributes("-fullscreen", True)
         self.bg="#effaff"
         self.menu_root.configure(bg=self.bg)
 
-        self.logo = ImageTk.PhotoImage(Image.open("LogoCookieClicker.png"))
+        self.img_logo = Image.open("LogoCookieClicker.png")
+        self.img_logo = self.img_logo.resize((300, 300))
+        self.logo = ImageTk.PhotoImage(self.img_logo)
         self.label_logo = tk.Label(self.menu_root, image=self.logo, bg=self.bg)
         self.label_logo.pack()
 
@@ -30,13 +32,13 @@ class Application:
         self.frame_bottom.pack(expand=True)
 
         self.btn_jouer = tk.Button(self.frame_bottom, text="Jouer", font=("Comic Sans Ms", 25), command=lambda: [self.menu_root.destroy(), self.affichage_principale()], width=8)
-        self.btn_jouer.pack(pady=20)
+        self.btn_jouer.pack(pady=10)
 
         self.btn_option = tk.Button(self.frame_bottom, text="Options", font=("Comic Sans Ms", 25), highlightthickness=0, width=8)
-        self.btn_option.pack(pady=20)
+        self.btn_option.pack(pady=10)
 
         self.btn_quitter = tk.Button(self.frame_bottom, text="Quitter", font=("Comic Sans Ms", 25),command=self.master.destroy, width=8)
-        self.btn_quitter.pack(pady=20)
+        self.btn_quitter.pack(pady=10)
 
 #OPTION EN COURS
     '''
@@ -70,7 +72,7 @@ class Application:
 
         close_button = tk.Button(options_window, text="Fermer", command=options_window.destroy)
         close_button.grid(row=3, columnspan=2, padx=10, pady=10, sticky="e")
-    '''
+    
 
     def update_background_color(self, dark_mode_var):
         if dark_mode_var.get():
@@ -82,9 +84,8 @@ class Application:
             self.menu_root.configure(bg="#effaff")
             self.frame_bottom.configure(bg="#effaff")
             self.label_logo.configure(bg="#effaff")
-
+    '''
     def affichage_principale(self):
-        self.master.attributes("-fullscreen", True)
         self.master.deiconify()
         self.create_navigation_bar()
         self.create_pages()
@@ -100,11 +101,10 @@ class Application:
                    ("Statistiques", lambda: self.show_page("Statistiques"))]
 
         for text, command in buttons:
-            button = tk.Button(navigation_frame, text=text, command=command, font=("Helvetica", 14), height=2, width=20)
+            button = tk.Button(navigation_frame, text=text, command=command, font=("Helvetica", 14), height=2, width=15)
             button.pack(side="left", padx=20, pady=10)
 
-        self.button_quit = tk.Button(navigation_frame, text="Quitter", command=self.master.quit, font=("Helvetica", 14),
-                                     height=2, width=20)
+        self.button_quit = tk.Button(navigation_frame, text="Quitter", command=self.master.quit, font=("Helvetica", 14),height=2, width=15)
         self.button_quit.pack(side="right", padx=20, pady=10)
 
     def create_pages(self):
@@ -113,7 +113,7 @@ class Application:
             page.pack(fill="both", expand=True)
             self.pages[page_name] = page
             label = tk.Label(page, text=page_name, font=("Helvetica", 18))
-            label.pack(pady=30)
+            label.pack(pady=50)
 
         # ICI POUR DEFINIR LES PAGES
 
