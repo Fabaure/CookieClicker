@@ -71,17 +71,17 @@ class Minijeu1:
 
     def show_reward(self):
         if self.cookies >= 300:
-            reward = "Vous avez débloqué le niveau expert ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
             self.cookie_reward = 5000 + ceil(self.cookies * 2.5)
             self.cookie_instance.cookie_count = self.cookie_reward
+            reward = "Vous avez débloqué le niveau expert ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
         elif self.cookies >= 200:
-            reward = "Vous avez débloqué le niveau intermédiaire ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
             self.cookie_reward = 1000 + ceil(self.cookies * 2.5)
             self.cookie_instance.cookie_count = self.cookie_reward
+            reward = "Vous avez débloqué le niveau intermédiaire ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
         elif self.cookies >= 100:
-            reward = "Vous avez débloqué le niveau débutant ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
             self.cookie_reward = 500 + ceil(self.cookies * 2.5)
             self.cookie_instance.cookie_count = self.cookie_reward
+            reward = "Vous avez débloqué le niveau débutant ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
         else:
             self.cookie_reward = 100 + ceil(self.cookies * 2.5)
             self.cookie_instance.cookie_count += self.cookie_reward
