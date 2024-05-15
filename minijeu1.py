@@ -37,11 +37,11 @@ class Minijeu1:
 
         self.cookie_image = PhotoImage(file="cookie.png").subsample(3, 3)
         self.cookie_button = tk.Button(self.master, image=self.cookie_image, command=self.click_cookie, state="disabled", borderwidth=0)
-        self.cookie_button.pack(pady=50)
+        self.cookie_button.pack(pady=30)
 
         self.start_image = PhotoImage(file="bouton.png").subsample(3, 3)
         self.start_button = tk.Button(self.master, image=self.start_image, command=self.start_game, borderwidth=0)
-        self.start_button.pack(pady=50)
+        self.start_button.pack(pady=10)
 
         self.timer_label = tk.Label(self.master, text="")
 
@@ -101,3 +101,4 @@ class Minijeu1:
         self.cookie_button.config(state="disabled")
         self.start_button.pack_forget()
         self.timer_label.pack_forget()
+
