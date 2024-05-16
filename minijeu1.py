@@ -73,18 +73,22 @@ class Minijeu1:
         if self.cookies >= 300:
             self.cookie_reward = 5000 + ceil(self.cookies * 2.5)
             self.cookie_instance.cookie_count += self.cookie_reward
+            self.cookie_instance.refreshcount()
             reward = "Vous avez débloqué le niveau expert ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
         elif self.cookies >= 200:
             self.cookie_reward = 1000 + ceil(self.cookies * 2.5)
             self.cookie_instance.cookie_count += self.cookie_reward
+            self.cookie_instance.refreshcount()
             reward = "Vous avez débloqué le niveau intermédiaire ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
         elif self.cookies >= 100:
             self.cookie_reward = 500 + ceil(self.cookies * 2.5)
             self.cookie_instance.cookie_count += self.cookie_reward
+            self.cookie_instance.refreshcount()
             reward = "Vous avez débloqué le niveau débutant ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
         else:
             self.cookie_reward = 100 + ceil(self.cookies * 2.5)
             self.cookie_instance.cookie_count += self.cookie_reward
+            self.cookie_instance.refreshcount()
             reward = "Vous pouvez mieux faire ! Vous avez gagné " + str(self.cookie_reward) +" Cookies"
         reward_label = tk.Label(self.master, text=reward)
         reward_label.pack(pady=10)

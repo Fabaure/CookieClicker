@@ -6,7 +6,7 @@ class Statistiques:
         self.stat_clique = 0
         self.stat_cookie = 0
         self.record_mn1 = 0
-        self.record_mn2 = 0  # Initialize record for mini-jeu 2
+        self.record_mn2 = 0
         self.create_widgets()
 
     def create_widgets(self):

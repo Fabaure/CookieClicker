@@ -26,7 +26,12 @@ class Cookie:
     def add_cookie(self):
         self.stat_instance.stat_clique += 1
         self.cookie_count += self.cookie_multip
-        self.stat_instance.stat_cookie = self.cookie_count
         self.label_cookie_count.config(text="Cookies : " + str(self.cookie_count))
         self.stat_instance.label_clique_nbr.config(text="Nombres de cliques : " + str(self.stat_instance.stat_clique))
-        self.stat_instance.label_cookie_nbr.config(text="Nombres de cookie total : " + str(self.stat_instance.stat_cookie))
+        if self.cookie_count >= self.stat_instance.stat_cookie:
+            self.refreshcount()
+
+    def refreshcount(self):
+        if self.cookie_count >= self.stat_instance.stat_cookie:
+            self.stat_instance.stat_cookie = self.cookie_count
+            self.master.after(1, self.stat_instance.label_cookie_nbr.config(text="Nombres de cookie total : " + str(self.cookie_count)))

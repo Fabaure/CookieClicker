@@ -2,8 +2,9 @@ from Cookie import Cookie
 import tkinter as tk
 from math import *
 class Upgrade:
-    def __init__(self, master, cookie_instance):
+    def __init__(self, master, cookie_instance, stat_instance):
         self.master = master
+        self.stat_instance = stat_instance
         self.cookie_instance = cookie_instance
         self.auto_click = 0
         self.autoclick = False
@@ -40,7 +41,7 @@ class Upgrade:
         self.cookie_instance.cookie_count += self.auto_click
         self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
         self.master.after(1000, self.fct_auto_click)
-
+        self.cookie_instance.refreshcount()
     def buy_clickdouble(self):
         if self.cookie_instance.cookie_count >= self.upgrade_price2:
             self.cookie_instance.cookie_count -= self.upgrade_price2

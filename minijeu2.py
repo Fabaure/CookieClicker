@@ -111,25 +111,27 @@ class Minijeu2:
             self.center_cookie()
             self.cookie_reward = 5000 + ceil(self.level * 250)
             self.cookie_instance.cookie_count += self.cookie_reward
+            self.cookie_instance.refreshcount()
             reward = "Vous avez débloqué le niveau expert ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
         elif self.level == 2:
             self.monstre_niveau3_button.pack_forget()
             self.cookie_reward = 1000 + ceil(self.level * 250)
             self.cookie_instance.cookie_count += self.cookie_reward
-            reward = "Vous avez débloqué le niveau intermédiaire ! Vous avez gagné " + str(
-                self.cookie_reward) + "Cookies"
-
+            self.cookie_instance.refreshcount()
+            reward = "Vous avez débloqué le niveau intermédiaire ! Vous avez gagné " + str(self.cookie_reward) + "Cookies"
             self.monstre_perdu()
         elif self.level == 1:
             self.monstre_niveau2_button.pack_forget()
             self.cookie_reward = 500 + ceil(self.level * 250)
             self.cookie_instance.cookie_count += self.cookie_reward
+            self.cookie_instance.refreshcount()
             reward = "Vous avez débloqué le niveau débutant ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
             self.monstre_perdu()
         else:
             self.monstre_button.pack_forget()
             self.cookie_reward = 100 + ceil(self.level * 250)
             self.cookie_instance.cookie_count += self.cookie_reward
+            self.cookie_instance.refreshcount()
             reward = "Vous pouvez mieux faire ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
             self.monstre_perdu()
         reward_label = tk.Label(self.master, text=reward)
