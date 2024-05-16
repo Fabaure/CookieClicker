@@ -1,7 +1,7 @@
 import tkinter as tk
 from minijeu1 import Minijeu1
 from minijeu2 import  Minijeu2
-
+from minijeu3 import Minijeu3
 
 class Minijeu:
     def __init__(self, master, cookie_instance, stat_instance):
