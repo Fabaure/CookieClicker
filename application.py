@@ -11,9 +11,6 @@ class Application:
     def __init__(self, master):
         self.master = master
         self.pages = {}
-        self.image_fond = None
-        self.image_secondaire = None
-        self.frame_options = None
 
     def MainMenu(self):
         self.menu_root = tk.Toplevel()
@@ -34,14 +31,13 @@ class Application:
         self.btn_jouer = tk.Button(self.frame_bottom, text="Jouer", font=("Comic Sans Ms", 25), command=lambda: [self.menu_root.destroy(), self.affichage_principale()], width=8)
         self.btn_jouer.pack(pady=10)
 
-        self.btn_option = tk.Button(self.frame_bottom, text="Options", font=("Comic Sans Ms", 25), highlightthickness=0, width=8)
+        self.btn_option = tk.Button(self.frame_bottom, text="Options", font=("Comic Sans Ms", 25), command=self.create_options,  highlightthickness=0, width=8)
         self.btn_option.pack(pady=10)
 
         self.btn_quitter = tk.Button(self.frame_bottom, text="Quitter", font=("Comic Sans Ms", 25),command=self.master.destroy, width=8)
         self.btn_quitter.pack(pady=10)
 
 #OPTION EN COURS
-    '''
     def create_options(self):
 
         options_window = tk.Toplevel(self.master)
@@ -84,7 +80,7 @@ class Application:
             self.menu_root.configure(bg="#effaff")
             self.frame_bottom.configure(bg="#effaff")
             self.label_logo.configure(bg="#effaff")
-    '''
+
     def affichage_principale(self):
         self.master.deiconify()
         self.create_navigation_bar()
@@ -126,7 +122,7 @@ class Application:
         self.cookie_instance = Cookie(self.cookie_page, self.stat_instance)
 
         self.boutique_page = self.pages["Boutique"]
-        self.boutique = Upgrade(self.boutique_page, self.cookie_instance)
+        self.boutique = Upgrade(self.boutique_page, self.cookie_instance, self.stat_instance)
 
         self.minijeu_page = self.pages["Mini-Jeu"]
         self.minijeu = Minijeu(self.minijeu_page, self.cookie_instance, self.stat_instance)

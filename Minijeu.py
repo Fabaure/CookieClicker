@@ -10,17 +10,21 @@ class Minijeu:
         self.stat_instance = stat_instance
         self.create_widgets()
         self.countdown1(5)
-        self.countdown2(15)
+        self.countdown2(5)
+        self.countdown3(5)
 
     def create_widgets(self):
         self.minijeu_frame = tk.Frame(self.master, bg="white")
         self.minijeu_frame.pack(expand=True, side="bottom", padx=10, pady=10)
 
         self.minijeu_button1 = tk.Button(self.minijeu_frame, text="Mini-jeu n°1\n", anchor="center", command=self.open_minijeu1, height=3, width=50, bg='#E2BFB3')
-        self.minijeu_button1.pack(pady=10)
+        self.minijeu_button1.pack(pady=20)
 
         self.minijeu_button2 = tk.Button(self.minijeu_frame, text="Mini-jeu n°2\n", anchor="center",command=self.open_minijeu2, height=3, width=50, bg='#E2BFB3')
-        self.minijeu_button2.pack(pady=30)
+        self.minijeu_button2.pack(pady=20)
+
+        self.minijeu_button3= tk.Button(self.minijeu_frame, text="Mini-jeu n°3\n", anchor="center", command=self.open_minijeu3, height=3, width=50, bg='#E2BFB3')
+        self.minijeu_button3.pack(pady=20)
 
     def countdown1(self, count):
         if count > 0:
@@ -35,6 +39,13 @@ class Minijeu:
             self.master.after(1000, self.countdown2, count - 1)
         else:
             self.minijeu_button2.config(text="Mini-jeu n°2\nDisponible", state="normal")
+
+    def countdown3(self, count):
+        if count > 0:
+            self.minijeu_button3.config(text="Mini-jeu n°3\nTemps restant: " + str(count), state="disabled")
+            self.master.after(1000, self.countdown3, count - 1)
+        else:
+            self.minijeu_button3.config(text="Mini-jeu n°3\nDisponible", state="normal")
     def open_minijeu1(self):
         minijeu1_window = tk.Toplevel(self.master)
         minijeu1_window.geometry("400x300")
@@ -47,4 +58,11 @@ class Minijeu:
         minijeu2_window.geometry("400x300")
         minijeu2_window.title("Minijeu 1")
         Minijeu2(minijeu2_window, self.stat_instance, self.cookie_instance)
+        self.countdown2(15)
+
+    def open_minijeu3(self):
+        minijeu3_window = tk.Toplevel(self.master)
+        minijeu3_window.geometry("400x300")
+        minijeu3_window.title("Minijeu 1")
+        Minijeu3(minijeu3_window)
         self.countdown2(15)
