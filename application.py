@@ -5,18 +5,22 @@ from Upgrade import Upgrade
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
+from pygame import mixer
 
 
 class Application:
     def __init__(self, master):
         self.master = master
         self.pages = {}
+        self.statebuttonDark = False
+        self.selected_music = "None"
+        mixer.init()
 
     def MainMenu(self):
         self.menu_root = tk.Toplevel()
         self.menu_root.geometry("1280x720")
         self.menu_root.title("Cookie Clicker")
-        self.bg="#effaff"
+        self.bg = "#effaff"
         self.menu_root.configure(bg=self.bg)
 
         self.img_logo = Image.open("LogoCookieClicker.png")
@@ -28,58 +32,95 @@ class Application:
         self.frame_bottom = tk.Frame(self.menu_root, highlightthickness=0, bg=self.bg, width=400, height=100)
         self.frame_bottom.pack(expand=True)
 
-        self.btn_jouer = tk.Button(self.frame_bottom, text="Jouer", font=("Comic Sans Ms", 25), command=lambda: [self.menu_root.destroy(), self.affichage_principale()], width=8)
+        self.btn_jouer = tk.Button(self.frame_bottom, text="Jouer", font=("Comic Sans Ms", 25),
+                                   command=lambda: [self.menu_root.destroy(), self.affichage_principale()], width=8)
         self.btn_jouer.pack(pady=10)
 
-        self.btn_option = tk.Button(self.frame_bottom, text="Options", font=("Comic Sans Ms", 25), command=self.create_options,  highlightthickness=0, width=8)
+        self.btn_option = tk.Button(self.frame_bottom, text="Options", font=("Comic Sans Ms", 25),
+                                    command=self.create_options, highlightthickness=0, width=8)
         self.btn_option.pack(pady=10)
 
-        self.btn_quitter = tk.Button(self.frame_bottom, text="Quitter", font=("Comic Sans Ms", 25),command=self.master.destroy, width=8)
+        self.btn_quitter = tk.Button(self.frame_bottom, text="Quitter", font=("Comic Sans Ms", 25),
+                                     command=self.master.destroy, width=8)
         self.btn_quitter.pack(pady=10)
 
-#OPTION EN COURS
+    # OPTION EN COURS
     def create_options(self):
 
-        options_window = tk.Toplevel(self.master)
-        options_window.title("Options")
-        options_window.configure(bg="#effaff")
+        self.options_window = tk.Toplevel(self.master)
+        self.options_window.title("Options")
+        self.options_window.configure(bg=self.bg)
 
-        #MUSIQUE
-        label_music = tk.Label(options_window, text="Choisir la musique OST:")
-        label_music.grid(row=0, column=0, padx=10, pady=5, sticky="w")
-        selected_music = tk.StringVar()
-        selected_music.set("Musique 1")
-        music_options = ["Musique 1", "Musique 2", "Musique 3"]
-        music_dropdown = ttk.Combobox(options_window, textvariable=selected_music, values=music_options)
-        music_dropdown.grid(row=0, column=1, padx=10, pady=5, sticky="w")
+        # MUSIQUE
+        self.label_music = tk.Label(self.options_window, text="Choisir la musique OST:")
+        self.label_music.grid(row=0, column=0, padx=10, pady=5, sticky="w")
+        self.music_options = ["Musique 1", "Musique 2", "Musique 3"]
+        self.music_dropdown = ttk.Combobox(self.options_window, textvariable=self.selected_music,values=self.music_options)
+        self.music_dropdown.set(self.selected_music)
+        self.musicchoose = self.music_dropdown.get
+        print(self.musicchoose)
+        self.music_dropdown.grid(row=0, column=1, padx=10, pady=5, sticky="w")
 
-        #VOLUME
-        label_volume = tk.Label(options_window, text="Volume:")
-        label_volume.grid(row=1, column=0, padx=10, pady=5, sticky="w")
-        volume_scale = tk.Scale(options_window, from_=0, to=100, orient="horizontal")
-        volume_scale.set(50)
-        volume_scale.grid(row=1, column=1, padx=10, pady=5, sticky="w")
+        # VOLUME
+        self.label_volume = tk.Label(self.options_window, text="Volume:")
+        self.label_volume.grid(row=1, column=0, padx=10, pady=5, sticky="w")
+        self.volume_scale = tk.Scale(self.options_window, from_=0, to=100, orient="horizontal")
+        self.volume_scale.set(50)
+        self.volume_scale.grid(row=1, column=1, padx=10, pady=5, sticky="w")
 
-        #MODE NUIT
-        dark_mode_var = tk.BooleanVar()
-        dark_mode_var.set(False)
-        dark_mode_button = tk.Checkbutton(options_window, text="Mode Sombre", variable=dark_mode_var, command=lambda: self.update_background_color(options_window, dark_mode_var))
-        dark_mode_button.grid(row=2, columnspan=2, padx=10, pady=5, sticky="w")
+        # MODE NUIT
+        self.dark_mode_var = tk.BooleanVar()
+        self.dark_mode_var.set(self.statebuttonDark)
+        self.dark_mode_button = tk.Checkbutton(self.options_window, text="Mode Sombre", variable=self.dark_mode_var) #,command=lambda: self.update_background_color(self.dark_mode_var))
+        self.dark_mode_button.grid(row=2, columnspan=2, padx=10, pady=5, sticky="w")
 
-        close_button = tk.Button(options_window, text="Fermer", command=options_window.destroy)
-        close_button.grid(row=3, columnspan=2, padx=10, pady=10, sticky="e")
-    
+        self.button_frame = tk.Frame(self.options_window, bg=self.bg)
+        self.button_frame.grid(row=2, column=0, columnspan=2, padx=10, pady=10, sticky="e")
 
+        self.close_button = tk.Button(self.button_frame, text="Fermer", command=self.options_window.destroy)
+        self.close_button.pack(side="left", padx=5)
+
+        self.apply_button = tk.Button(self.button_frame, text="Appliquer", command=self.apply_music)
+        self.apply_button.pack(side="left", padx=5)
+
+    def apply_music(self):
+        self.selected_music = self.music_dropdown.get()
+        if self.selected_music == "Musique 1":
+            self.selected_music = "Musique 1"
+            mixer.music.load(f"Musique1.mp3")
+            self.selected_music = "Musique 1"
+            mixer.music.set_volume(self.volume_scale.get() / 100)
+            mixer.music.play(-1)
+        if self.selected_music == "Musique 2":
+            self.selected_music = "Musique 1"
+            #mixer.music.load(f"Musique2.mp3")
+            self.selected_music = "Musique 2"
+            #mixer.music.set_volume(self.volume_scale.get() / 100)
+            #mixer.music.play(-1)
+        elif self.selected_music == "Musique 3":
+            self.selected_music = "Musique 3"
+            #mixer.music.load(f"Musique3.mp3")
+            self.selected_music = "Musique 3"
+            #mixer.music.set_volume(self.volume_scale.get() / 100)
+            #mixer.music.play(-1)
+
+    ''' 
+    #EN COURS 
     def update_background_color(self, dark_mode_var):
         if dark_mode_var.get():
-            self.menu_root.configure(bg="#212121")
-            self.frame_bottom.configure(bg="#212121")
-            self.label_logo.configure(bg="#212121")
-
+            self.statebuttonDark = True
+            self.bg = "#212121"
+            self.menu_root.configure(bg=self.bg)
+            self.frame_bottom.configure(bg=self.bg)
+            self.label_logo.configure(bg=self.bg)
+            self.options_window.configure(bg=self.bg)
         else:
-            self.menu_root.configure(bg="#effaff")
-            self.frame_bottom.configure(bg="#effaff")
-            self.label_logo.configure(bg="#effaff")
+            self.statebuttonDark = False
+            self.bg = "#effaff"
+            self.menu_root.configure(bg=self.bg)
+            self.frame_bottom.configure(bg=self.bg)
+            self.label_logo.configure(bg=self.bg)
+            self.options_window.configure(bg=self.bg) '''
 
     def affichage_principale(self):
         self.master.deiconify()
@@ -100,8 +141,13 @@ class Application:
             button = tk.Button(navigation_frame, text=text, command=command, font=("Helvetica", 14), height=2, width=15)
             button.pack(side="left", padx=20, pady=10)
 
-        self.button_quit = tk.Button(navigation_frame, text="Quitter", command=self.master.quit, font=("Helvetica", 14),height=2, width=15)
+        self.button_quit = tk.Button(navigation_frame, text="Quitter", command=self.master.quit, font=("Helvetica", 14),
+                                     height=2, width=15)
         self.button_quit.pack(side="right", padx=20, pady=10)
+
+        self.option = tk.Button(navigation_frame, text="Options", command=self.create_options, font=("Helvetica", 14),
+                                height=2, width=15)
+        self.option.pack(side="right", padx=20, pady=10)
 
     def create_pages(self):
         for page_name in ["Cookie", "Boutique", "Mini-Jeu", "Statistiques"]:
