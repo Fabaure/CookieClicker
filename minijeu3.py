@@ -1,15 +1,18 @@
 import tkinter as tk
 from tkinter import PhotoImage
+from math import *
 import random
 
 class Minijeu3:
-    def __init__(self, master):
+    def __init__(self, master, stat_instance, cookie_instance):
         self.master = master
         self.master.title("Mange pépites!")
         self.master.geometry("900x600")
+        self.stat_instance = stat_instance
+        self.cookie_instance = cookie_instance
         self.choco = 0
         self.game_started = False
-        self.level = 1
+        self.level = 0
         self.create_widgets()
 
     def create_widgets(self):
@@ -45,7 +48,7 @@ class Minijeu3:
     def start_game(self):
         if not self.game_started:
             self.game_started = True
-            self.level = 1
+            self.level = 0
             self.choco = 0
             self.niveau_label.config(text="Niveau: 0")
             self.choco_label.config(text="Pépites: 0")
@@ -91,23 +94,54 @@ class Minijeu3:
         self.cookie_canvas.create_image(0, 0, anchor=tk.NW, image=self.cookie_image)
 
     def niveau1(self):
+        self.level=1
         self.niveau_label.config(text="Niveau: 1")
         self.create_multiple_chocolates(5)
 
     def niveau2(self):
+        self.level=2
         self.niveau_label.config(text="Niveau: 2")
         self.create_multiple_chocolates(10)
 
     def niveau3(self):
+        self.level = 3
         self.niveau_label.config(text="Niveau: 3")
         self.create_multiple_chocolates(15)
 
-    def end_game(self):
-        self.game_started = False
-        self.timer_label.pack_forget()
-        self.start_button.pack_forget()
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = Minijeu3(root)
-    root.mainloop()
+    def show_reward(self):
+        if self.level == 3:
+            self.cookie_reward = 7500 + ceil(self.level * 250)
+            self.cookie_instance.cookie_count += self.cookie_reward
+            self.cookie_instance.refreshcount()
+            reward = "Vous avez débloqué le niveau expert ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
+        elif self.level == 2:
+            self.cookie_reward = 2500 + ceil(self.level * 250)
+            self.cookie_instance.cookie_count += self.cookie_reward
+            self.cookie_instance.refreshcount()
+            reward = "Vous avez débloqué le niveau intermédiaire ! Vous avez gagné " + str(self.cookie_reward) + "Cookies"
+        elif self.level == 1:
+            self.cookie_reward = 750 + ceil(self.level * 250)
+            self.cookie_instance.cookie_count += self.cookie_reward
+            self.cookie_instance.refreshcount()
+            reward = "Vous avez débloqué le niveau débutant ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
+        else:
+            self.cookie_reward = 250 + ceil(self.level * 250)
+            self.cookie_instance.cookie_count += self.cookie_reward
+            self.cookie_instance.refreshcount()
+            reward = "Vous pouvez mieux faire ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
+        reward_label = tk.Label(self.master, text=reward)
+        reward_label.pack(pady=10)
+        self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
+
+    def record(self):
+        if self.choco >= self.stat_instance.record_mn3:
+            self.stat_instance.record_mn3 = self.cookie_reward
+            self.stat_instance.label_record_mn3.config(text="Record du mini-jeu 3 : " + str(self.stat_instance.record_mn3) + " Cookies")
+
+    def end_game(self):
+        self.show_reward()
+        self.record()
+        self.game_started = False
+        self.start_button.pack_forget()
+        self.timer_label.pack_forget()

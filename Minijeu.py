@@ -64,5 +64,5 @@ class Minijeu:
         minijeu3_window = tk.Toplevel(self.master)
         minijeu3_window.geometry("400x300")
         minijeu3_window.title("Minijeu 1")
-        Minijeu3(minijeu3_window)
+        Minijeu3(minijeu3_window, self.stat_instance, self.cookie_instance)
         self.countdown2(15)

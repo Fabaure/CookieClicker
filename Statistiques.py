@@ -7,6 +7,7 @@ class Statistiques:
         self.stat_cookie = 0
         self.record_mn1 = 0
         self.record_mn2 = 0
+        self.record_mn3 = 0
         self.create_widgets()
 
     def create_widgets(self):
@@ -27,3 +28,6 @@ class Statistiques:
 
         self.label_record_mn2 = tk.Label(self.stat_frame, text="Record du mini-jeu 2 : " + str(self.record_mn2) + " Cookie", font=("Courier", 15), fg="black", bg="white")
         self.label_record_mn2.pack(pady=2)
+
+        self.label_record_mn3 = tk.Label(self.stat_frame, text="Record du mini-jeu 3 : " + str(self.record_mn3) + " Cookie", font=("Courier", 15), fg="black", bg="white")
+        self.label_record_mn3.pack(pady=2)
