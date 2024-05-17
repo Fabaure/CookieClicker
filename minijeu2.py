@@ -139,7 +139,7 @@ class Minijeu2:
         self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
 
     def record(self):
-        if self.cookies >= self.stat_instance.record_mn1:
+        if self.cookies >= self.stat_instance.record_mn2:
             self.stat_instance.record_mn2 = self.cookie_reward
             self.stat_instance.label_record_mn2.config(text="Record du mini-jeu 2 : " + str(self.stat_instance.record_mn2) + " Cookies")
 
