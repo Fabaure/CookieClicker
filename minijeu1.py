@@ -19,31 +19,33 @@ class Minijeu1:
 
     def create_widgets(self):
 
-        side_frame = tk.Frame(self.master)
-        side_frame.pack(side="top", padx=10)
+        self.background_image = PhotoImage(file="fond.png")
+        self.background_label = tk.Label(self.master, image=self.background_image)
+        self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-        rules_text = ( "Bonjour et bienvenue à notre premier mini-jeu !\n Dans celui-ci, la rapidité est la clé, alors soyez vif et ne vous trompez pas. "
-"\n Vous disposez de trente secondes pour cliquer autant de fois que possible sur le cookie. "
-"\n Dépêchez-vous et tentez de décrocher les meilleures récompenses ! "
-"\n Appuyez sur 'Start' pour commencer !")
-        rules_label = tk.Label(side_frame, text=rules_text, justify= "center")
-        rules_label.pack(side="top", pady=20)
+        side_frame = tk.Frame(self.master, bg='#FEDCE4')
+        side_frame.place(relx=0.5, rely=0.05, anchor='n')
 
-        self.cookies_label = tk.Label(self.master, text="Cookies: 0")
-        self.cookies_label.pack(pady=10)
+        rules_text = ("Bonjour et bienvenue à notre premier mini-jeu !\n Dans celui-ci, la rapidité est la clé, alors soyez vif et ne vous trompez pas. "
+                      "\n Vous disposez de trente secondes pour cliquer autant de fois que possible sur le cookie. "
+                      "\n Dépêchez-vous et tentez de décrocher les meilleures récompenses ! "
+                      "\n Appuyez sur 'Start' pour commencer !")
+        rules_label = tk.Label(side_frame, text=rules_text, justify="center", bg='#FEDCE4')
+        rules_label.pack(pady=20)
 
-        self.label_record_mn1 = tk.Label(self.master, text=str(self.stat_instance.record_mn1) + " Cookie")
-        self.label_record_mn1.pack(pady=5)
+        self.cookies_label = tk.Label(self.master, text="Cookies: 0", bg='#FEDCE4')
+        self.cookies_label.place(relx=0.5, rely=0.25, anchor='n')
 
         self.cookie_image = PhotoImage(file="cookie.png").subsample(3, 3)
-        self.cookie_button = tk.Button(self.master, image=self.cookie_image, command=self.click_cookie, state="disabled", borderwidth=0)
-        self.cookie_button.pack(pady=30)
+        self.cookie_button = tk.Button(self.master, image=self.cookie_image, command=self.click_cookie, state="disabled", borderwidth=0, bg='#FEDCE4')
+        self.cookie_button.place(relx=0.5, rely=0.55, anchor='center')
 
         self.start_image = PhotoImage(file="bouton.png").subsample(3, 3)
-        self.start_button = tk.Button(self.master, image=self.start_image, command=self.start_game, borderwidth=0)
-        self.start_button.pack(pady=10)
+        self.start_button = tk.Button(self.master, image=self.start_image, command=self.start_game, borderwidth=0, bg='#FEDCE4')
+        self.start_button.place(relx=0.5, rely=0.80, anchor='center')
 
-        self.timer_label = tk.Label(self.master, text="")
+        self.timer_label = tk.Label(self.master, text="", bg='#FEDCE4')
+        self.timer_label.place(relx=0.5, rely=0.80, anchor='center')
 
     def click_cookie(self):
         if self.game_started:
@@ -55,10 +57,10 @@ class Minijeu1:
             self.game_started = True
             self.cookies = 0
             self.cookies_label.config(text="Cookies: 0")
-            self.start_button.pack_forget()
-            self.timer_label.pack()
+            self.start_button.place_forget()
+            self.timer_label.place(relx=0.5, rely=0.85, anchor='center')
             self.cookie_button.config(state="normal")
-            self.countdown(3)
+            self.countdown(30)
 
     def countdown(self, count):
         if count > 0:
@@ -89,20 +91,18 @@ class Minijeu1:
             self.cookie_reward = 100 + ceil(self.cookies * 2.5)
             self.cookie_instance.cookie_count += self.cookie_reward
             self.cookie_instance.refreshcount()
-            reward = "Vous pouvez mieux faire ! Vous avez gagné " + str(self.cookie_reward) +" Cookies"
-        reward_label = tk.Label(self.master, text=reward)
-        reward_label.pack(pady=10)
+            reward = "Vous pouvez mieux faire ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
+        reward_label = tk.Label(self.master, text=reward, bg='#FEDCE4')
+        reward_label.place(relx=0.5, rely=0.9, anchor='center')
         self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
 
     def record(self):
         if self.cookies >= self.stat_instance.record_mn1:
             self.stat_instance.record_mn1 = self.cookies
-            self.label_record_mn1.config(text="Record : " + str(self.cookies) + " Cookies")
             self.stat_instance.label_record_mn1.config(text="Record du mini-jeu 1 : " + str(self.stat_instance.record_mn1) + " Cookies")
 
     def end_game(self):
         self.game_started = False
         self.cookie_button.config(state="disabled")
-        self.start_button.pack_forget()
-        self.timer_label.pack_forget()
-
+        self.start_button.place_forget()
+        self.timer_label.place_forget()

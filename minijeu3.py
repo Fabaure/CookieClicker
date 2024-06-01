@@ -16,34 +16,39 @@ class Minijeu3:
         self.create_widgets()
 
     def create_widgets(self):
-        side_frame = tk.Frame(self.master)
-        side_frame.pack(side="top", padx=10)
+
+        self.background_image = PhotoImage(file="background.png")
+        self.background_label = tk.Label(self.master, image=self.background_image)
+        self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
+
+        side_frame = tk.Frame(self.master, bg='#D3E6FF')
+        side_frame.place(relx=0.5, rely=0.05, anchor="n", width=880, height=150)
 
         rules_text = ("Bonjour et bienvenue à notre troisième mini-jeu !\n Dans celui-ci, la rapidité est la clé, alors soyez vif et précis!"
-                      "\n Vous disposez d'une minute pour cliquer sur toutes les pepites de chocolat qui apparaissent sur le cookie"
+                      "\n Vous disposez d'une minute pour cliquer sur toutes les pépites de chocolat qui apparaissent sur le cookie"
                       "\n Dans ce jeu, vous trouverez plusieurs niveaux qui montent en difficulté."
-                      "\n Régalez vous et tentez de décrocher les meilleures récompenses ! "
+                      "\n Régalez-vous et tentez de décrocher les meilleures récompenses ! "
                       "\n Appuyez sur 'Start' pour commencer !")
-        rules_label = tk.Label(side_frame, text=rules_text, justify="center")
-        rules_label.pack(side="top", pady=20)
+        rules_label = tk.Label(side_frame, text=rules_text, justify="center", bg='#D3E6FF')
+        rules_label.place(relx=0.5, rely=0.5, anchor="center")
 
-        self.choco_label = tk.Label(self.master, text="Pépites: 0")
-        self.choco_label.pack(pady=10)
+        self.choco_label = tk.Label(self.master, text="Pépites: 0", bg='#D3E6FF')
+        self.choco_label.place(relx=0.5, rely=0.3, anchor="center")
 
-        self.niveau_label = tk.Label(self.master, text="Niveau: 0")
-        self.niveau_label.pack(pady=10)
+        self.niveau_label = tk.Label(self.master, text="Niveau: 0", bg='#D3E6FF')
+        self.niveau_label.place(relx=0.5, rely=0.35, anchor="center")
 
         self.cookie_image = PhotoImage(file="cookie_sans_pepite.png").subsample(2, 2)
 
-        self.cookie_canvas = tk.Canvas(self.master, width=255, height=225)
-        self.cookie_canvas.pack()
+        self.cookie_canvas = tk.Canvas(self.master, width=255, height=225, highlightthickness=0, bg='#D3E6FF')
+        self.cookie_canvas.place(relx=0.5, rely=0.6, anchor="center")
         self.cookie_canvas.create_image(0, 0, anchor=tk.NW, image=self.cookie_image)
 
         self.start_image = PhotoImage(file="bouton.png").subsample(3, 3)
-        self.start_button = tk.Button(self.master, image=self.start_image, command=self.start_game, borderwidth=0)
-        self.start_button.pack(pady=10)
+        self.start_button = tk.Button(self.master, image=self.start_image, command=self.start_game, borderwidth=0, bg='#D3E6FF')
+        self.start_button.place(relx=0.5, rely=0.87, anchor="center")
 
-        self.timer_label = tk.Label(self.master, text="")
+        self.timer_label = tk.Label(self.master, text="", bg='#D3E6FF')
 
     def start_game(self):
         if not self.game_started:
@@ -52,8 +57,8 @@ class Minijeu3:
             self.choco = 0
             self.niveau_label.config(text="Niveau: 0")
             self.choco_label.config(text="Pépites: 0")
-            self.start_button.pack_forget()
-            self.timer_label.pack()
+            self.start_button.place_forget()
+            self.timer_label.place(relx=0.5, rely=0.85, anchor="center")
             self.countdown(30)
             self.niveau1()
 
@@ -88,18 +93,17 @@ class Minijeu3:
         else:
             self.end_game()
 
-
     def clear_chocolates(self):
         self.cookie_canvas.delete("all")
         self.cookie_canvas.create_image(0, 0, anchor=tk.NW, image=self.cookie_image)
 
     def niveau1(self):
-        self.level=1
+        self.level = 1
         self.niveau_label.config(text="Niveau: 1")
         self.create_multiple_chocolates(5)
 
     def niveau2(self):
-        self.level=2
+        self.level = 2
         self.niveau_label.config(text="Niveau: 2")
         self.create_multiple_chocolates(10)
 
@@ -107,7 +111,6 @@ class Minijeu3:
         self.level = 3
         self.niveau_label.config(text="Niveau: 3")
         self.create_multiple_chocolates(15)
-
 
     def show_reward(self):
         if self.level == 3:
@@ -119,7 +122,7 @@ class Minijeu3:
             self.cookie_reward = 2500 + ceil(self.level * 250)
             self.cookie_instance.cookie_count += self.cookie_reward
             self.cookie_instance.refreshcount()
-            reward = "Vous avez débloqué le niveau intermédiaire ! Vous avez gagné " + str(self.cookie_reward) + "Cookies"
+            reward = "Vous avez débloqué le niveau intermédiaire ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
         elif self.level == 1:
             self.cookie_reward = 750 + ceil(self.level * 250)
             self.cookie_instance.cookie_count += self.cookie_reward
@@ -130,8 +133,8 @@ class Minijeu3:
             self.cookie_instance.cookie_count += self.cookie_reward
             self.cookie_instance.refreshcount()
             reward = "Vous pouvez mieux faire ! Vous avez gagné " + str(self.cookie_reward) + " Cookies"
-        reward_label = tk.Label(self.master, text=reward)
-        reward_label.pack(pady=10)
+        reward_label = tk.Label(self.master, text=reward, bg='#D3E6FF')
+        reward_label.place(relx=0.5, rely=0.8, anchor="center")
         self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
 
     def record(self):
@@ -143,5 +146,6 @@ class Minijeu3:
         self.show_reward()
         self.record()
         self.game_started = False
-        self.start_button.pack_forget()
-        self.timer_label.pack_forget()
+        self.start_button.place_forget()
+        self.timer_label.place_forget()
+        self.clear_chocolates()
