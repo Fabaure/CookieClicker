@@ -10,6 +10,8 @@ class CookieClickerApp:
         self.master.withdraw()
         self.application = Application(master)
         self.application.MainMenu()
+        self.master.resizable(width=False, height=False)
+
 
 
 if __name__ == "__main__":
