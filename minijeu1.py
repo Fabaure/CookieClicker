@@ -37,15 +37,15 @@ class Minijeu1:
         self.cookies_label.place(relx=0.5, rely=0.25, anchor='n')
 
         self.cookie_image = PhotoImage(file="cookie.png").subsample(3, 3)
-        self.cookie_button = tk.Button(self.master, image=self.cookie_image, command=self.click_cookie, state="disabled", borderwidth=0, bg='#FEDCE4', activebackground='#FEDCE4')
+        self.cookie_button = tk.Button(self.master, image=self.cookie_image, command=self.click_cookie, state="disabled", borderwidth=0, bg='#FEDCE4', activebackground="white")
         self.cookie_button.place(relx=0.5, rely=0.55, anchor='center')
 
         self.start_image = PhotoImage(file="bouton.png").subsample(3, 3)
-        self.start_button = tk.Button(self.master, image=self.start_image, command=self.start_game, borderwidth=0, bg='#FEDCE4', activebackground='#FEDCE4')
+        self.start_button = tk.Button(self.master, image=self.start_image, command=self.start_game, borderwidth=0, bg='#FEDCE4', activebackground="white")
         self.start_button.place(relx=0.5, rely=0.80, anchor='center')
 
-        self.timer_label = tk.Label(self.master, text="", bg='#FEDCE4')
-        self.timer_label.place(relx=0.5, rely=0.80, anchor='center')
+        self.timer_label = tk.Label(self.master, bg='#FEDCE4')
+
 
     def click_cookie(self):
         if self.game_started:

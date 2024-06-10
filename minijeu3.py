@@ -48,7 +48,7 @@ class Minijeu3:
         self.start_button = tk.Button(self.master, image=self.start_image, command=self.start_game, borderwidth=0, bg='#D3E6FF', activebackground='#D3E6FF')
         self.start_button.place(relx=0.5, rely=0.87, anchor="center")
 
-        self.timer_label = tk.Label(self.master, text="", bg='#D3E6FF')
+        self.timer_label = tk.Label(self.master, bg='#D3E6FF')
 
     def start_game(self):
         if not self.game_started:
