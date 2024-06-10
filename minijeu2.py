@@ -43,11 +43,11 @@ class Minijeu2:
         self.niveau_label.place(relx=0.5, rely=0.35, anchor='n')
 
         self.cookie_image = PhotoImage(file="cookie.png").subsample(3, 3)
-        self.cookie_label = tk.Label(self.master, image=self.cookie_image, borderwidth=0, bg='#FAEFD6')
+        self.cookie_label = tk.Label(self.master, image=self.cookie_image, borderwidth=0, bg='#FAEFD6', activebackground='#FAEFD6')
         self.cookie_label.place(relx=0.2, rely=0.59, anchor='center')
 
         self.start_image = PhotoImage(file="bouton.png").subsample(3, 3)
-        self.start_button = tk.Button(self.master, image=self.start_image, command=self.start_game, borderwidth=0, bg='#FAEFD6')
+        self.start_button = tk.Button(self.master, image=self.start_image, command=self.start_game, borderwidth=0, bg='#FAEFD6', activebackground='#FAEFD6')
         self.start_button.place(relx=0.5, rely=0.9, anchor='center')
 
         self.timer_label = tk.Label(self.master, text="", bg='#FAEFD6')
@@ -73,7 +73,7 @@ class Minijeu2:
 
     def monstre_niveau1(self):
         self.monstre_image = PhotoImage(file="monstrecontent.png").subsample(4, 4)
-        self.monstre_button = tk.Button(self.master, image=self.monstre_image, command=self.monstre_action, borderwidth=0, bg='#FAEFD6')
+        self.monstre_button = tk.Button(self.master, image=self.monstre_image, command=self.monstre_action, borderwidth=0, bg='#FAEFD6', activebackground='#FAEFD6')
         self.monstre_button.place(relx=0.8, rely=0.59, anchor='center')
 
     def monstre_action(self):
@@ -85,7 +85,7 @@ class Minijeu2:
 
     def monstre_niveau2(self):
         self.monstre_niveau2_image = PhotoImage(file="monstredecu.png").subsample(2, 2)
-        self.monstre_niveau2_button = tk.Button(self.master, image=self.monstre_niveau2_image, command=self.monstre_niveau2_action, borderwidth=0, bg='#FAEFD6')
+        self.monstre_niveau2_button = tk.Button(self.master, image=self.monstre_niveau2_image, command=self.monstre_niveau2_action, borderwidth=0, bg='#FAEFD6', activebackground='#FAEFD6')
         self.monstre_niveau2_button.place(relx=0.7, rely=0.59, anchor='center')
 
     def monstre_niveau2_action(self):
@@ -98,7 +98,7 @@ class Minijeu2:
 
     def monstre_niveau3(self):
         self.monstre_niveau3_image = PhotoImage(file="monstreenerve.png").subsample(2, 2)
-        self.monstre_niveau3_button = tk.Button(self.master, image=self.monstre_niveau3_image, command=self.monstre_niveau3_action, borderwidth=0, bg='#FAEFD6')
+        self.monstre_niveau3_button = tk.Button(self.master, image=self.monstre_niveau3_image, command=self.monstre_niveau3_action, borderwidth=0, bg='#FAEFD6', activebackground='#FAEFD6')
         self.monstre_niveau3_button.place(relx=0.6, rely=0.59, anchor='center')
 
     def monstre_niveau3_action(self):

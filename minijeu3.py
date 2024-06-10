@@ -45,7 +45,7 @@ class Minijeu3:
         self.cookie_canvas.create_image(0, 0, anchor=tk.NW, image=self.cookie_image)
 
         self.start_image = PhotoImage(file="bouton.png").subsample(3, 3)
-        self.start_button = tk.Button(self.master, image=self.start_image, command=self.start_game, borderwidth=0, bg='#D3E6FF')
+        self.start_button = tk.Button(self.master, image=self.start_image, command=self.start_game, borderwidth=0, bg='#D3E6FF', activebackground='#D3E6FF')
         self.start_button.place(relx=0.5, rely=0.87, anchor="center")
 
         self.timer_label = tk.Label(self.master, text="", bg='#D3E6FF')
