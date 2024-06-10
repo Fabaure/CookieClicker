@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 from pygame import mixer
+from tkinter import messagebox
 
 
 class Application:
@@ -15,6 +16,9 @@ class Application:
         self.statebuttonDark = False
         self.selected_music = "None"
         mixer.init()
+        self.indice = 0
+        self.running = False
+        self.time = 0
 
     def MainMenu(self):
         self.menu_root = tk.Toplevel()
@@ -33,7 +37,7 @@ class Application:
         self.frame_bottom.pack(expand=True)
 
         self.btn_jouer = tk.Button(self.frame_bottom, text="Jouer", font=("Comic Sans Ms", 25),
-                                   command=lambda: [self.menu_root.destroy(), self.affichage_principale()], width=8)
+                                   command=lambda: [self.menu_root.destroy(), self.open_player_name_window()], width=8)
         self.btn_jouer.pack(pady=10)
 
         self.btn_option = tk.Button(self.frame_bottom, text="Options", font=("Comic Sans Ms", 25),
@@ -47,7 +51,7 @@ class Application:
     # OPTION EN COURS
     def create_options(self):
 
-        self.options_window = tk.Toplevel(self.master)
+        self.options_window = tk.Toplevel()
         self.options_window.title("Options")
         self.options_window.configure(bg=self.bg)
 
@@ -55,7 +59,7 @@ class Application:
         self.label_music = tk.Label(self.options_window, text="Choisir la musique OST:")
         self.label_music.grid(row=0, column=0, padx=10, pady=5, sticky="w")
         self.music_options = ["Musique 1", "Musique 2", "Musique 3"]
-        self.music_dropdown = ttk.Combobox(self.options_window, textvariable=self.selected_music,values=self.music_options)
+        self.music_dropdown = ttk.Combobox(self.options_window, values=self.music_options)
         self.music_dropdown.set(self.selected_music)
         self.musicchoose = self.music_dropdown.get
         print(self.musicchoose)
@@ -71,7 +75,8 @@ class Application:
         # MODE NUIT
         self.dark_mode_var = tk.BooleanVar()
         self.dark_mode_var.set(self.statebuttonDark)
-        self.dark_mode_button = tk.Checkbutton(self.options_window, text="Mode Sombre", variable=self.dark_mode_var) #,command=lambda: self.update_background_color(self.dark_mode_var))
+        self.dark_mode_button = tk.Checkbutton(self.options_window, text="Mode Sombre", variable=self.dark_mode_var,
+                                               command=lambda: self.update_background_color(self.dark_mode_var))
         self.dark_mode_button.grid(row=2, columnspan=2, padx=10, pady=5, sticky="w")
 
         self.button_frame = tk.Frame(self.options_window, bg=self.bg)
@@ -93,44 +98,70 @@ class Application:
             mixer.music.play(-1)
         if self.selected_music == "Musique 2":
             self.selected_music = "Musique 1"
-            #mixer.music.load(f"Musique2.mp3")
+            # mixer.music.load(f"Musique2.mp3")
             self.selected_music = "Musique 2"
-            #mixer.music.set_volume(self.volume_scale.get() / 100)
-            #mixer.music.play(-1)
+            # mixer.music.set_volume(self.volume_scale.get() / 100)
+            # mixer.music.play(-1)
         elif self.selected_music == "Musique 3":
             self.selected_music = "Musique 3"
-            #mixer.music.load(f"Musique3.mp3")
+            # mixer.music.load(f"Musique3.mp3")
             self.selected_music = "Musique 3"
-            #mixer.music.set_volume(self.volume_scale.get() / 100)
-            #mixer.music.play(-1)
+            # mixer.music.set_volume(self.volume_scale.get() / 100)
+            # mixer.music.play(-1)
 
-    ''' 
-    #EN COURS 
-    def update_background_color(self, dark_mode_var):
-        if dark_mode_var.get():
-            self.statebuttonDark = True
-            self.bg = "#212121"
-            self.menu_root.configure(bg=self.bg)
-            self.frame_bottom.configure(bg=self.bg)
-            self.label_logo.configure(bg=self.bg)
-            self.options_window.configure(bg=self.bg)
+    def open_player_name_window(self):
+        self.master.withdraw()  # Masquer la fenêtre principale
+        self.player_name_window = tk.Toplevel(self.master)
+        self.player_name_window.title("Entrez votre pseudo")
+        self.player_name_window.protocol("WM_DELETE_WINDOW", self.cancel_name_entry)  # Définir une fonction pour intercepter la fermeture de la fenêtre
+
+        self.label_name = tk.Label(self.player_name_window, text="Entrez votre pseudo:")
+        self.label_name.pack()
+
+        self.entry_name = tk.Entry(self.player_name_window)
+        self.entry_name.pack(pady=10)
+
+        self.button_confirm = tk.Button(self.player_name_window, text="Confirmer", command=self.test_name)
+        self.button_confirm.pack(pady=10)
+
+    def cancel_name_entry(self):
+        messagebox.showwarning("Attention", "Veuillez entrer un pseudo pour commencer à jouer.")
+
+    def test_name(self):
+        if self.entry_name.get() == '':
+            messagebox.showwarning("Attention", "Veuillez entrer un pseudo pour commencer à jouer.")
         else:
-            self.statebuttonDark = False
-            self.bg = "#effaff"
-            self.menu_root.configure(bg=self.bg)
-            self.frame_bottom.configure(bg=self.bg)
-            self.label_logo.configure(bg=self.bg)
-            self.options_window.configure(bg=self.bg) '''
+            self.affichage_principale()
+            self.start_game()
 
     def affichage_principale(self):
         self.master.deiconify()
         self.create_navigation_bar()
         self.create_pages()
-        self.master.title("Navigation Bar")
+        self.master.title("Cookie Clicker")
+        self.indice = 1
+
+
+    def update_time(self):
+        if self.running:
+            self.time += 1
+            formatted_time = self.format_time(self.time)
+            self.stat_instance.time_label.config(text=f"Temps de jeu: {formatted_time}")
+            self.master.after(1000, self.update_time)
+
+    def format_time(self, seconds):
+        mins, secs = divmod(seconds, 60)
+        hours, mins = divmod(mins, 60)
+        return f"{hours:02d}:{mins:02d}:{secs:02d}"
+
+    def start_game(self):
+        if not self.running:
+            self.running = True
+            self.update_time()
 
     def create_navigation_bar(self):
-        navigation_frame = tk.Frame(self.master, bg="#E2BFB3", relief=tk.SUNKEN)
-        navigation_frame.pack(side="top", fill="x")
+        self.navigation_frame = tk.Frame(self.master, bg="#E2BFB3", relief=tk.SUNKEN)
+        self.navigation_frame.pack(side="top", fill="x")
 
         buttons = [("Cookie", lambda: self.show_page("Cookie")),
                    ("Boutique", lambda: self.show_page("Boutique")),
@@ -138,46 +169,86 @@ class Application:
                    ("Statistiques", lambda: self.show_page("Statistiques"))]
 
         for text, command in buttons:
-            button = tk.Button(navigation_frame, text=text, command=command, font=("Helvetica", 14), height=2, width=15)
-            button.pack(side="left", padx=20, pady=10)
+            self.button = tk.Button(self.navigation_frame, text=text, command=command, font=("Helvetica", 14), height=2,
+                                    width=15)
+            self.button.pack(side="left", padx=20, pady=10)
 
-        self.button_quit = tk.Button(navigation_frame, text="Quitter", command=self.master.quit, font=("Helvetica", 14),
+        self.button_quit = tk.Button(self.navigation_frame, text="Quitter", command=lambda :[self.stat_instance.save_score(), self.master.quit],
+                                     font=("Helvetica", 14),
                                      height=2, width=15)
         self.button_quit.pack(side="right", padx=20, pady=10)
 
-        self.option = tk.Button(navigation_frame, text="Options", command=self.create_options, font=("Helvetica", 14),
+        self.option = tk.Button(self.navigation_frame, text="Options", command=self.create_options,
+                                font=("Helvetica", 14),
                                 height=2, width=15)
         self.option.pack(side="right", padx=20, pady=10)
 
     def create_pages(self):
         for page_name in ["Cookie", "Boutique", "Mini-Jeu", "Statistiques"]:
-            page = tk.Frame(self.master, bg="white")
-            page.pack(fill="both", expand=True)
-            self.pages[page_name] = page
-            label = tk.Label(page, text=page_name, font=("Helvetica", 18))
-            label.pack(pady=50)
+            self.page = tk.Frame(self.master, bg="white")
+            self.page.pack(fill="both", expand=True)
+            self.pages[page_name] = self.page
+            self.label = tk.Label(self.page, text=page_name, font=("Helvetica", 18))
+            self.label.pack(pady=50)
 
         # ICI POUR DEFINIR LES PAGES
 
         # =*=
 
         self.statistiques_page = self.pages["Statistiques"]
-        self.stat_instance = Statistiques(self.statistiques_page)
+        self.stat_instance = Statistiques(self.statistiques_page, self)
 
         self.cookie_page = self.pages["Cookie"]
-        self.cookie_instance = Cookie(self.cookie_page, self.stat_instance)
+        self.cookie_instance = Cookie(self.cookie_page, self.stat_instance, self)
 
         self.boutique_page = self.pages["Boutique"]
         self.boutique = Upgrade(self.boutique_page, self.cookie_instance, self.stat_instance)
 
         self.minijeu_page = self.pages["Mini-Jeu"]
-        self.minijeu = Minijeu(self.minijeu_page, self.cookie_instance, self.stat_instance)
+        self.minijeu = Minijeu(self.minijeu_page, self.cookie_instance, self.stat_instance, self)
 
         # =*=
 
         self.show_page("Cookie")
 
     def show_page(self, page_name):
-        for page in self.pages.values():
-            page.pack_forget()
+        for self.page in self.pages.values():
+            self.page.pack_forget()
         self.pages[page_name].pack(fill="both", expand=True)
+
+    def update_background_color(self, dark_mode_var):
+        if self.indice == 0:
+
+            if dark_mode_var.get():
+                self.statebuttonDark = True
+                self.bg = "#212121"
+            else:
+                self.statebuttonDark = False
+                self.bg = "#effaff"
+            self.menu_root.configure(bg=self.bg)
+            self.frame_bottom.configure(bg=self.bg)
+            self.label_logo.configure(bg=self.bg)
+            self.options_window.configure(bg=self.bg)
+            self.button_frame.configure(bg=self.bg)
+        else:
+            if dark_mode_var.get():
+                self.statebuttonDark = True
+                self.bg = "#212121"
+            else:
+                self.statebuttonDark = False
+                self.bg = "#effaff"
+            for pages_name in ["Cookie", "Boutique", "Mini-Jeu", "Statistiques"]:
+                self.pageBG = self.pages[pages_name]
+                self.pageBG.configure(bg=self.bg)
+            self.options_window.configure(bg=self.bg)
+            self.button_frame.configure(bg=self.bg)
+
+    def display_message(self, message):
+        dialogue_frame = tk.Frame(self.master, bg="white", bd=2, relief=tk.SOLID)
+        dialogue_frame.place(relx=0.1, rely=0.7, relwidth=0.8, relheight=0.2)
+
+        dialogue_label = tk.Label(dialogue_frame, text=message, justify="center", wraplength=600, bg="white",
+                                  font=("Helvetica", 18))
+        dialogue_label.pack(padx=10, pady=10)
+
+        self.master.after(3000, dialogue_frame.destroy)
