@@ -64,7 +64,7 @@ class Statistiques:
         self.update_scores_display()
 
     def save_score(self):
-        name = self.app_instance.entry_name.get()
+        name = self.app_instance.player_name
         self.score = self.stat_cookie
         self.scores.append((name, self.score))
         self.scores.sort(key=lambda x: x[1], reverse=True)
