@@ -131,8 +131,10 @@ class Application:
         if self.entry_name.get() == '':
             messagebox.showwarning("Attention", "Veuillez entrer un pseudo pour commencer à jouer.")
         else:
+            self.player_name = self.entry_name.get()
             self.affichage_principale()
             self.start_game()
+            self.player_name_window.destroy()
 
     def affichage_principale(self):
         self.master.deiconify()
@@ -173,7 +175,7 @@ class Application:
                                     width=15)
             self.button.pack(side="left", padx=20, pady=10)
 
-        self.button_quit = tk.Button(self.navigation_frame, text="Quitter", command=lambda :[self.stat_instance.save_score(), self.master.quit],
+        self.button_quit = tk.Button(self.navigation_frame, text="Quitter", command= self.save_and_quit,
                                      font=("Helvetica", 14),
                                      height=2, width=15)
         self.button_quit.pack(side="right", padx=20, pady=10)
@@ -182,6 +184,11 @@ class Application:
                                 font=("Helvetica", 14),
                                 height=2, width=15)
         self.option.pack(side="right", padx=20, pady=10)
+
+    def save_and_quit(self):
+            if hasattr(self, 'stat_instance'):
+                self.stat_instance.save_score()
+            self.master.quit()
 
     def create_pages(self):
         for page_name in ["Cookie", "Boutique", "Mini-Jeu", "Statistiques"]:
