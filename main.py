@@ -12,8 +12,6 @@ class CookieClickerApp:
         self.application.MainMenu()
         self.master.resizable(width=False, height=False)
 
-
-
 if __name__ == "__main__":
     root = tk.Tk()
     app = CookieClickerApp(root)
