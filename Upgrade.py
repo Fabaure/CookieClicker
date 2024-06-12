@@ -10,6 +10,8 @@ class Upgrade:
         self.application_instance = application_instance
         self.auto_click = 0
         self.autoclick = False
+        self.upgrade3 = False
+        self.time_upgrade_3 = 300  # Temps 5min
         self.upgrade_price1 = 10
         self.upgrade_price2 = 20
         self.upgrade_price3 = 500
@@ -57,7 +59,7 @@ class Upgrade:
 
         self.upgrade_button3 = tk.Button(self.upgrade_frame, image=self.imageB,
                                          text="Upgrade 3\nPrix : " + str(self.upgrade_price3) + " Cookies",
-                                         anchor="center", command=self.buy_upgrade3, borderwidth=0, bg="white",
+                                         anchor="center", command=self.buy_5fois_cookie_all, borderwidth=0, bg="white",
                                          compound=tk.CENTER, activebackground="white", font=self.custom_font,
                                          fg="#612E18", activeforeground="#612E18", state="disabled")
 
@@ -111,7 +113,7 @@ class Upgrade:
         else:
             self.upgrade_button2.config(state="disabled")
 
-        if self.cookie_instance.cookie_count >= self.upgrade_price3:
+        if self.cookie_instance.cookie_count >= self.upgrade_price3 and self.upgrade3 == False:
             self.upgrade_button3.config(state="normal")
         else:
             self.upgrade_button3.config(state="disabled")
@@ -172,6 +174,8 @@ class Upgrade:
         self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
         self.master.after(1000, self.fct_auto_click)
         self.cookie_instance.refreshcount()
+
+
     def buy_clickdouble(self):
         if self.cookie_instance.cookie_count >= self.upgrade_price2:
             self.niveau_upgrade2 += 1
@@ -181,7 +185,32 @@ class Upgrade:
             self.cookie_instance.cookie_multip += 10
             self.upgrade_button2.config(text=(str(self.cookie_instance.cookie_multip+1))+" Cookies / Cliques\nPrix : " + str(self.upgrade_price2) + " Cookies")
         self.update_levels()
-    def buy_upgrade3(self):
+
+
+    def buy_5fois_cookie_all(self):
         if self.cookie_instance.cookie_count >= self.upgrade_price3:
             self.niveau_upgrade3 += 1
+            self.cookie_instance.cookie_count -= self.upgrade_price2
+            self.upgrade_price2 = ceil(self.upgrade_price2 * 2)
+            self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
+            print(self.cookie_instance.cookie_multip)
+            print(self.auto_click)
+            self.cookie_instance.cookie_multip *= 5 # Cliquer double * 5
+            self.auto_click *= 5 # AutoClick * 5
+            print(self.cookie_instance.cookie_multip)
+            print(self.auto_click)
+            if not self.upgrade3:
+                self.upgrade3 = True
+                self.upgrade_button3.config(state="disabled", text="All x5\nTemps restant: " + str(self.time_upgrade_3) + " secondes")
+                self.fct_fois_cookie_all()
         self.update_levels()
+
+    def fct_fois_cookie_all(self):
+        self.time_upgrade_3 -= 1
+        if self.time_upgrade_3 == 0:
+            self.upgrade3 = False
+            self.upgrade_button3.config(state="disabled", text="Upgrade 3\nPrix : " + str(self.upgrade_price3) + " Cookies")
+        self.upgrade_button3.config(state="disabled",
+                                    text="All x5\nTemps restant: " + str(self.time_upgrade_3) + " secondes")
+        self.master.after(1000, self.fct_fois_cookie_all)
+
