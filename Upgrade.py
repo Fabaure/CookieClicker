@@ -19,9 +19,9 @@ class Upgrade:
         self.avatar2 = 50000
         self.avatar3 = 100000
         self.avatar4 = 500000
-        self.niveau_upgrade1 = 0
-        self.niveau_upgrade2 = 0
-        self.niveau_upgrade3 = 0
+        self.level_upgrade1 = 0
+        self.level_upgrade2 = 0
+        self.level_upgrade3 = 0
         self.create_widgets()
         self.refreshcount_upgrade()
         self.check_avatar()
@@ -41,7 +41,7 @@ class Upgrade:
 
         self.upgrade_button1.place(x=150, y=200)
 
-        self.level_label1 = tk.Label(self.upgrade_frame, text="Niveau: " + str(self.niveau_upgrade1),
+        self.level_label1 = tk.Label(self.upgrade_frame, text="Niveau: " + str(self.level_upgrade1),
                                      font=self.custom_font, bg="white", fg="#612E18")
         self.level_label1.place(x=450, y=240)
 
@@ -53,7 +53,7 @@ class Upgrade:
 
         self.upgrade_button2.place(x=150, y=300)
 
-        self.level_label2 = tk.Label(self.upgrade_frame, text="Niveau: " + str(self.niveau_upgrade2),
+        self.level_label2 = tk.Label(self.upgrade_frame, text="Niveau: " + str(self.level_upgrade2),
                                      font=self.custom_font, bg="white", fg="#612E18")
         self.level_label2.place(x=450, y=340)
 
@@ -65,7 +65,7 @@ class Upgrade:
 
         self.upgrade_button3.place(x=150, y=400)
 
-        self.level_label3 = tk.Label(self.upgrade_frame, text="Niveau: " + str(self.niveau_upgrade3),
+        self.level_label3 = tk.Label(self.upgrade_frame, text="Niveau: " + str(self.level_upgrade3),
                                      font=self.custom_font, bg="white", fg="#612E18")
         self.level_label3.place(x=450, y=440)
 
@@ -104,9 +104,9 @@ class Upgrade:
 
 
     def update_levels(self):
-        self.level_label1.config(text="Niveau: " + str(self.niveau_upgrade1))
-        self.level_label2.config(text="Niveau: " + str(self.niveau_upgrade2))
-        self.level_label3.config(text="Niveau: " + str(self.niveau_upgrade3))
+        self.level_label1.config(text="Niveau: " + str(self.level_upgrade1))
+        self.level_label2.config(text="Niveau: " + str(self.level_upgrade2))
+        self.level_label3.config(text="Niveau: " + str(self.level_upgrade3))
 
     def refreshcount_upgrade(self):
         if self.cookie_instance.cookie_count >= self.upgrade_price1:
@@ -165,7 +165,7 @@ class Upgrade:
             self.cookie_instance.cookie_button.config(image=self.funny_image)
     def buy_auto_click(self):
         if self.cookie_instance.cookie_count >= self.upgrade_price1:
-            self.niveau_upgrade1 += 1
+            self.level_upgrade1 += 1
             self.cookie_instance.cookie_count -= self.upgrade_price1
             self.upgrade_price1 = ceil(self.upgrade_price1 * 1.8)
             self.upgrade_button1.config(text="Auto-click\nPrix : " + str(self.upgrade_price1) + " Cookies")
@@ -184,16 +184,14 @@ class Upgrade:
 
     def buy_clickdouble(self):
         if self.cookie_instance.cookie_count >= self.upgrade_price2:
-            self.niveau_upgrade2 += 1
+            self.level_upgrade2 += 1
             self.cookie_instance.cookie_count -= self.upgrade_price2
             self.upgrade_price2 = ceil(self.upgrade_price2 * 2)
             self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
             self.cookie_instance.cookie_multip += 10
             self.upgrade_button2.config(text=(str(self.cookie_instance.cookie_multip+1))+" Cookies / Cliques\nPrix : " + str(self.upgrade_price2) + " Cookies")
         self.update_levels()
-
-
-    def buy_5fois_cookie_all(self):
+    def buy_upgrade3(self):
         if self.cookie_instance.cookie_count >= self.upgrade_price3:
             self.niveau_upgrade3 += 1
             self.cookie_instance.cookie_count -= self.upgrade_price2
@@ -210,20 +208,9 @@ class Upgrade:
                 self.upgrade_button3.config(state="disabled", text="All x5\nTemps restant: " + str(self.time_upgrade_3) + " secondes")
                 self.fct_fois_cookie_all()
         self.update_levels()
-
-    def fct_fois_cookie_all(self):
-        self.time_upgrade_3 -= 1
-        if self.time_upgrade_3 == 0:
-            self.upgrade3 = False
-            self.upgrade_button3.config(state="disabled", text="Upgrade 3\nPrix : " + str(self.upgrade_price3) + " Cookies")
-        self.upgrade_button3.config(state="disabled",
-                                    text="All x5\nTemps restant: " + str(self.time_upgrade_3) + " secondes")
-        self.master.after(1000, self.fct_fois_cookie_all)
-
 #fonction pour demo prof (à enlever après)
     def activate_all(self):
         self.avatar1_button.config(state="normal")
         self.avatar2_button.config(state="normal")
         self.avatar3_button.config(state="normal")
         self.avatar4_button.config(state="normal")
-
