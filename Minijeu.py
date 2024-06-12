@@ -2,6 +2,7 @@ import tkinter as tk
 from minijeu1 import Minijeu1
 from minijeu2 import  Minijeu2
 from minijeu3 import Minijeu3
+from tkinter import PhotoImage
 
 class Minijeu:
     def __init__(self, master, cookie_instance, stat_instance, application_instance):
@@ -29,6 +30,11 @@ class Minijeu:
 
         self.minijeu_button3= tk.Button(self.minijeu_frame, text="Mini-jeu n°3\nAtteindre 50 0000 cookies pour le débloquer", anchor="center", command=self.open_minijeu3, height=3, width=50, bg='#E2BFB3', state="disabled")
         self.minijeu_button3.pack(pady=20)
+
+        self.star = PhotoImage(file="magical_star.png").subsample(3,3)
+        self.magical_button = tk.Button(self.minijeu_frame, image=self.star, bg='white', bd=0, relief=tk.SUNKEN,
+                                       highlightthickness=0, command=self.activate_all, activebackground="white")
+        self.magical_button.pack()
 
     def check_minijeu(self):
         if self.cookie_instance.cookie_count >= self.minijeu1 and self.minijeu1 != 0:
@@ -93,3 +99,9 @@ class Minijeu:
         minijeu3_window.title("Minijeu 3")
         Minijeu3(minijeu3_window, self.stat_instance, self.cookie_instance)
         self.countdown3(900)
+
+    # fonction pour demo prof (à enlever après)
+    def activate_all(self):
+        self.minijeu_button1.config(state="normal")
+        self.minijeu_button2.config(state="normal")
+        self.minijeu_button3.config(state="normal")
