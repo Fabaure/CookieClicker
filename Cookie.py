@@ -38,3 +38,4 @@ class Cookie:
             self.stat_instance.stat_cookie = self.cookie_count
             self.master.after(1, self.stat_instance.label_cookie_nbr.config(
                 text="Record du nombres de cookie :" + str(self.cookie_count)))
+

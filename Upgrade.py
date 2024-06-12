@@ -78,24 +78,30 @@ class Upgrade:
 
 
         self.avatar0_button = tk.Button(self.upgrade_frame, image=self.basic_button_image, bg="white",
-                                        command=lambda: self.change_avatar(0), borderwidth=0)
+                                        command=lambda: self.change_avatar(0), borderwidth=0, activebackground="white")
         self.avatar0_button.place(x=750, y=50)
         self.avatar1_button = tk.Button(self.upgrade_frame, image=self.classy_button_image, bg="white",
                                         command=lambda: self.change_avatar(1),
-                                         state="disabled", borderwidth=0)
+                                         state="disabled", borderwidth=0, activebackground="white")
         self.avatar1_button.place(x=600, y=200)
         self.avatar2_button = tk.Button(self.upgrade_frame, image=self.formal_button_image, bg="white",
                                         command=lambda: self.change_avatar(2),
-                                         state="disabled", borderwidth=0)
+                                         state="disabled", borderwidth=0, activebackground="white")
         self.avatar2_button.place(x=900, y=200)
         self.avatar3_button = tk.Button(self.upgrade_frame, image=self.beach_button_image, bg="white",
                                         command=lambda: self.change_avatar(3),
-                                         state="disabled", borderwidth=0)
+                                         state="disabled", borderwidth=0, activebackground="white")
         self.avatar3_button.place(x=600, y=350)
         self.avatar4_button = tk.Button(self.upgrade_frame, image=self.funny_button_image, bg="white",
                                         command=lambda: self.change_avatar(4),
-                                         state="disabled", borderwidth=0)
+                                         state="disabled", borderwidth=0, activebackground="white")
         self.avatar4_button.place(x=900, y=350)
+
+        self.star = PhotoImage(file="magical_star.png").subsample(3,3)
+        self.magical_button = tk.Button(self.upgrade_frame, image=self.star, bg='white', bd=0, relief=tk.SUNKEN,
+                                       highlightthickness=0, command=self.activate_all, activebackground="white")
+        self.magical_button.place(x=1020, y=80 )
+
 
     def update_levels(self):
         self.level_label1.config(text="Niveau: " + str(self.niveau_upgrade1))
@@ -213,4 +219,11 @@ class Upgrade:
         self.upgrade_button3.config(state="disabled",
                                     text="All x5\nTemps restant: " + str(self.time_upgrade_3) + " secondes")
         self.master.after(1000, self.fct_fois_cookie_all)
+
+#fonction pour demo prof (à enlever après)
+    def activate_all(self):
+        self.avatar1_button.config(state="normal")
+        self.avatar2_button.config(state="normal")
+        self.avatar3_button.config(state="normal")
+        self.avatar4_button.config(state="normal")
 
