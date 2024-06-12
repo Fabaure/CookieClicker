@@ -209,7 +209,7 @@ class Application:
         self.cookie_instance = Cookie(self.cookie_page, self.stat_instance, self)
 
         self.boutique_page = self.pages["Boutique"]
-        self.boutique = Upgrade(self.boutique_page, self.cookie_instance, self.stat_instance)
+        self.boutique = Upgrade(self.boutique_page, self.cookie_instance, self.stat_instance, self)
 
         self.minijeu_page = self.pages["Mini-Jeu"]
         self.minijeu = Minijeu(self.minijeu_page, self.cookie_instance, self.stat_instance, self)
@@ -255,7 +255,7 @@ class Application:
         dialogue_frame.place(relx=0.1, rely=0.7, relwidth=0.8, relheight=0.2)
 
         dialogue_label = tk.Label(dialogue_frame, text=message, justify="center", wraplength=600, bg="white",
-                                  font=("Helvetica", 18))
+                                  font=("Helvetica", 10))
         dialogue_label.pack(padx=10, pady=10)
 
-        self.master.after(3000, dialogue_frame.destroy)
+        self.master.after(5000, dialogue_frame.destroy)

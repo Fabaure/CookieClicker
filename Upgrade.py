@@ -1,23 +1,28 @@
-from Cookie import Cookie
 import tkinter as tk
 from tkinter import PhotoImage
 from math import *
 from tkinter import font
 class Upgrade:
-    def __init__(self, master, cookie_instance, stat_instance):
+    def __init__(self, master, cookie_instance, stat_instance, application_instance):
         self.master = master
         self.stat_instance = stat_instance
         self.cookie_instance = cookie_instance
+        self.application_instance = application_instance
         self.auto_click = 0
         self.autoclick = False
         self.upgrade_price1 = 10
         self.upgrade_price2 = 20
         self.upgrade_price3 = 500
+        self.avatar1 = 10000
+        self.avatar2 = 50000
+        self.avatar3 = 100000
+        self.avatar4 = 500000
         self.niveau_upgrade1 = 0
         self.niveau_upgrade2 = 0
         self.niveau_upgrade3 = 0
         self.create_widgets()
         self.refreshcount_upgrade()
+        self.check_avatar()
 
     def create_widgets(self):
         self.custom_font = font.Font(family="Cookies", size=10)
@@ -112,7 +117,27 @@ class Upgrade:
             self.upgrade_button3.config(state="disabled")
 
         self.master.after(100, self.refreshcount_upgrade)
-
+    def check_avatar(self):
+        if self.cookie_instance.cookie_count >= self.avatar1 and self.avatar1 != 0:
+            self.avatar1 = 0
+            self.avatar1_button.config(state = "normal")
+            self.master.after(1000, self.check_avatar)
+        elif self.cookie_instance.cookie_count >= self.avatar2 and self.avatar2 != 0:
+            self.avatar2 = 0
+            self.avatar2_button.config(state = "normal")
+            self.master.after(1000, self.check_avatar)
+        elif self.cookie_instance.cookie_count >= self.avatar3 and self.avatar3 != 0:
+            message = "\n\n Vous avez débloqué l'avatar 3!\n\nRendez-vous dans la page Boutique pour pouvoir le tester!"
+            self.application_instance.display_message(message)
+            self.avatar3 = 0
+            self.avatar3_button.config(state = "normal")
+        elif self.cookie_instance.cookie_count >= self.avatar4 and self.avatar4 != 0:
+            message = "\n\n Vous avez débloqué l'avatar 4!\n\nRendez-vous dans la page Boutique pour pouvoir le tester!"
+            self.application_instance.display_message(message)
+            self.avatar4 = 0
+            self.avatar4_button.config(state = "normal")
+        else :
+            self.master.after(1000, self.check_avatar)
     def change_avatar(self, num_avatar):
         self.classy_image = PhotoImage(file="classy.png")
         self.formal_image = PhotoImage(file="formal.png")
@@ -157,6 +182,6 @@ class Upgrade:
             self.upgrade_button2.config(text=(str(self.cookie_instance.cookie_multip+1))+" Cookies / Cliques\nPrix : " + str(self.upgrade_price2) + " Cookies")
         self.update_levels()
     def buy_upgrade3(self):
-        if self.cookie_instance.cookie_count >= self.upgrade_price2:
+        if self.cookie_instance.cookie_count >= self.upgrade_price3:
             self.niveau_upgrade3 += 1
         self.update_levels()

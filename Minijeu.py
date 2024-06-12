@@ -38,13 +38,13 @@ class Minijeu:
             self.minijeu1 = 0
             self.master.after(1000, self.check_minijeu)
         elif self.cookie_instance.cookie_count >= self.minijeu2 and self.minijeu2 != 0:
-            message = "Le mini jeu 2 est débloqué\n\nRendez-vous dans la page Mini jeu pour pouvoir y jouer dès maintenant !"
+            message = "Le mini jeu 2 est débloqué\n\nRendez-vous dans la page Mini jeu pour pouvoir y jouer dès maintenant !\n\n Vous avez débloqué l'avatar 1!\n\nRendez-vous dans la page Boutique pour pouvoir le tester!"
             self.application_instance.display_message(message)
             self.countdown2(0)
             self.minijeu2 = 0
             self.master.after(1000, self.check_minijeu)
         elif self.cookie_instance.cookie_count >= self.minijeu3 and self.minijeu3 != 0:
-            message = "Le mini jeu 3 est débloqué\n\nRendez-vous dans la page Mini jeu pour pouvoir y jouer dès maintenant !"
+            message = "Le mini jeu 3 est débloqué\n\nRendez-vous dans la page Mini jeu pour pouvoir y jouer dès maintenant !\n\n Vous avez débloqué l'avatar 2!\n\nRendez-vous dans la page Boutique pour pouvoir le tester!"
             self.application_instance.display_message(message)
             self.countdown3(0)
             self.minijeu3 = 0
