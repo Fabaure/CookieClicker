@@ -3,6 +3,8 @@ import tkinter as tk
 from tkinter import PhotoImage  # Gestion d'images
 from math import *
 from tkinter import font  # Gestion de polices
+import random
+import time
 
 class Upgrade:
     def __init__(self, master, cookie_instance, stat_instance, application_instance):
@@ -18,8 +20,8 @@ class Upgrade:
         # Prix des différentes améliorations
         self.upgrade_price1 = 10
         self.upgrade_price2 = 20
-        self.upgrade_price3 = 500
-        self.upgrade_price4 = 1000
+        self.upgrade_price3 = 0
+        self.upgrade_price4 = 0 #En cours
         # Prix des différents avatars
         self.avatar1 = 10000
         self.avatar2 = 50000
@@ -30,6 +32,9 @@ class Upgrade:
         self.level_upgrade2 = 0
         self.level_upgrade3 = 0
         self.level_upgrade4 = 0
+        self.indice_buyupgrade2 = 10
+        self.is_spinning = False
+        self.result = None
         self.create_widgets()  # Appel de la méthode pour créer les widgets
         self.refreshcount_upgrade()  # Appel de la méthode pour rafraîchir les états des boutons d'amélioration
         self.check_avatar()  # Appel de la méthode pour vérifier les avatars disponibles
@@ -61,11 +66,7 @@ class Upgrade:
         self.level_label1.place(x=500, y=240)
 
         # Bouton pour la deuxième amélioration (augmentation du nombre de cookies par clic)
-        self.upgrade_button2 = tk.Button(self.upgrade_frame, image=self.imageB, text=(
-                                         str(self.cookie_instance.cookie_multip + 1)) + " Cookies / Cliques\nPrix : " + str(
-            self.upgrade_price2) + " Cookies", anchor="center", command=self.buy_clickdouble, borderwidth=0, bg="white",
-                                         compound=tk.CENTER, activebackground="white", font=self.custom_font,
-                                         fg="#612E18", activeforeground="#612E18", state="disabled")
+        self.upgrade_button2 = tk.Button(self.upgrade_frame, image=self.imageB, text="10 Cookies / Cliques\nPrix : " + str(self.upgrade_price2) + " Cookies", anchor="center", command=self.buy_clickplusdix, borderwidth=0, bg="white",compound=tk.CENTER, activebackground="white", font=self.custom_font,fg="#612E18", activeforeground="#612E18", state="disabled")
         self.upgrade_button2.place(x=150, y=300)
 
         # Label pour afficher le niveau de la deuxième amélioration
@@ -75,8 +76,8 @@ class Upgrade:
 
         # Bouton pour la troisième amélioration ()
         self.upgrade_button3 = tk.Button(self.upgrade_frame, image=self.imageB,
-                                         text="Upgrade 3\nPrix : " + str(self.upgrade_price3) + " Cookies",
-                                         anchor="center", command=self.buy_5fois_cookie_all, borderwidth=0, bg="white",
+                                         text="Roue de la fortune\nPrix : 1er tour gratuit !",
+                                         anchor="center", command=self.spin, borderwidth=0, bg="white",
                                          compound=tk.CENTER, activebackground="white", font=self.custom_font,
                                          fg="#612E18", activeforeground="#612E18", state="disabled")
         self.upgrade_button3.place(x=150, y=400)
@@ -87,8 +88,8 @@ class Upgrade:
         self.level_label3.place(x=500, y=440)
 
         self.upgrade_button4 = tk.Button(self.upgrade_frame, image=self.imageB,
-                                         text="Upgrade 4\nPrix : " + str(self.upgrade_price4) + " Cookies",
-                                         anchor="center", command=self.buy_5fois_cookie_all, borderwidth=0, bg="white",
+                                         text="Upgrade 4\nProchainement",
+                                         anchor="center", borderwidth=0, bg="white",
                                          compound=tk.CENTER, activebackground="white", font=self.custom_font,
                                          fg="#612E18", activeforeground="#612E18", state="disabled")
 
@@ -223,7 +224,7 @@ class Upgrade:
         if self.cookie_instance.cookie_count >= self.upgrade_price1:
             self.level_upgrade1 += 1
             self.cookie_instance.cookie_count -= self.upgrade_price1
-            self.upgrade_price1 = ceil(self.upgrade_price1 * 1.8)
+            self.upgrade_price1 = ceil(self.upgrade_price1 * 1.5)
             self.upgrade_button1.config(text="Auto-click\nPrix : " + str(self.upgrade_price1) + " Cookies")
             self.auto_click += 1
             if not self.autoclick:
@@ -238,44 +239,80 @@ class Upgrade:
         self.master.after(1000, self.fct_auto_click)
         self.cookie_instance.refreshcount()
 
-    def buy_clickdouble(self):
-        # Achat de l'amélioration du double clic
+    def buy_clickplusdix(self):
+        # Achat de l'amélioration du click +10
         if self.cookie_instance.cookie_count >= self.upgrade_price2:
             self.level_upgrade2 += 1
             self.cookie_instance.cookie_count -= self.upgrade_price2
-            self.upgrade_price2 = ceil(self.upgrade_price2 * 2)
+            self.upgrade_price2 = ceil(self.upgrade_price2 * 2.5)
             self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
-            self.cookie_instance.cookie_multip += 10
-            self.upgrade_button2.config(text=(str(self.cookie_instance.cookie_multip+1))+" Cookies / Cliques\nPrix : " + str(self.upgrade_price2) + " Cookies")
+            if self.cookie_instance.cookie_multip == 1:
+                self.cookie_instance.cookie_multip += 9
+            else:
+                self.cookie_instance.cookie_multip += 10
+            self.indice_buyupgrade2 += 10
+            self.upgrade_button2.config(text=str(self.indice_buyupgrade2) + " Cookies / Cliques\nPrix : " + str(self.upgrade_price2) + " Cookies")
         self.update_levels()
 
-    def buy_5fois_cookie_all(self):
-        # Achat de la troisième amélioration
+    def spin(self):
         if self.cookie_instance.cookie_count >= self.upgrade_price3:
-            self.niveau_upgrade3 += 1
-            self.cookie_instance.cookie_count -= self.upgrade_price2
-            self.upgrade_price2 = ceil(self.upgrade_price2 * 2)
+            self.level_upgrade3 += 1
+            self.cookie_instance.cookie_count -= self.upgrade_price3
             self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
-            print(self.cookie_instance.cookie_multip)
-            print(self.auto_click)
-            self.cookie_instance.cookie_multip *= 5 # Cliquer double * 5
-            self.auto_click *= 5 # AutoClick * 5
-            print(self.cookie_instance.cookie_multip)
-            print(self.auto_click)
-            if not self.upgrade3:
-                self.upgrade3 = True
-                self.upgrade_button3.config(state="disabled", text="All x5\nTemps restant: " + str(self.time_upgrade_3) + " secondes")
-                self.fct_fois_cookie_all()
+            self.upgrade_button3.config(text="Upgrade 3\nPrix : " + str(self.upgrade_price3) + " Cookies", state="disabled")
+
+            self.spin_root = tk.Toplevel()
+            self.frame = tk.Frame(self.spin_root)
+            self.frame.pack()
+
+            self.choice_label = tk.Label(self.frame, text="", font=("Helvetica", 20))
+            self.choice_label.pack()
+
+            self.choices_list = ["50 000 Cookies", "10 000 Cookies", "5 000 Cookies", "1 000 Cookies", "500 Cookies", "100 Cookies", "10 Cookies"]
+            self.is_spinning = True
+            self.upgrade_price3 = 15000
+            self.upgrade_button3.config(text="Roue de la fortune\nPrix : " + str(self.upgrade_price3) + " Cookies",
+                                        state="normal")
+
+            self.animate(self.choices_list)
         self.update_levels()
 
-    def fct_fois_cookie_all(self):
-        self.time_upgrade_3 -= 1
-        if self.time_upgrade_3 == 0 :
-            self.upgrade3 = False
-            self.upgrade_button3.config(state="disabled",text="All x5\nTemps restant: " + str(self.time_upgrade_3) + " secondes")
-        self.master.after(1000, self.fct_fois_cookie_all)
 
-#fonction pour demo prof (à enlever après)
+
+    def animate(self, choices_list):
+        for i in range(20):
+            choice = random.choice(choices_list)
+            self.choice_label.config(text=choice)
+            self.spin_root.update()
+            time.sleep(0.1)  # Délai entre chaque changement de choix
+
+        self.result = random.choice(choices_list)
+        self.choice_label.config(text=self.result, fg="red")
+        self.is_spinning = False
+        self.spin_root.after(3000, self.spin_root.destroy)
+
+        if self.result == "50 000 Cookies":
+            self.cookie_instance.cookie_count += 50000
+            self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
+        elif self.result == "10 000 Cookies":
+            self.cookie_instance.cookie_count += 10000
+            self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
+        elif self.result == "5 000 Cookies":
+            self.cookie_instance.cookie_count += 5000
+            self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
+        elif self.result == "1 000 Cookies":
+            self.cookie_instance.cookie_count += 1000
+            self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
+        elif self.result == "500 Cookies":
+            self.cookie_instance.cookie_count += 500
+            self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
+        elif self.result == "100 Cookies":
+            self.cookie_instance.cookie_count += 100
+            self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
+        else:
+            self.cookie_instance.cookie_count += 10
+            self.cookie_instance.label_cookie_count.config(text="Cookies : " + str(self.cookie_instance.cookie_count))
+
     def activate_all(self):
         # Fonction pour démonstration (à enlever après) qui active tous les boutons avatars
         self.avatar1_button.config(state="normal")
