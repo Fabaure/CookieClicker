@@ -19,21 +19,21 @@ class Minijeu:
         self.create_widgets()
 
     def create_widgets(self):
-        self.minijeu_frame = tk.Frame(self.master, bg="white")
-        self.minijeu_frame.pack(expand=True, side="bottom", padx=10, pady=10)
+        self.minijeu_frame = tk.Frame(self.master, bg=self.application_instance.bg_main)
+        self.minijeu_frame.pack(expand=True)
 
-        self.minijeu_button1 = tk.Button(self.minijeu_frame, text="Mini-jeu n°1\nAtteindre 500 cookies pour le débloquer", anchor="center", command=self.open_minijeu1, height=3, width=50, bg='#E2BFB3', state="disabled")
+        self.minijeu_button1 = tk.Button(self.minijeu_frame, text="Mini-jeu n°1\nAtteindre 500 cookies pour le débloquer", anchor="center", command=self.open_minijeu1, height=3, width=50, bg="#F1C8E1", state="disabled")
         self.minijeu_button1.pack(pady=20)
 
-        self.minijeu_button2 = tk.Button(self.minijeu_frame, text="Mini-jeu n°2\nAtteindre 10 000 cookies pour le débloquer", anchor="center",command=self.open_minijeu2, height=3, width=50, bg='#E2BFB3', state="disabled")
+        self.minijeu_button2 = tk.Button(self.minijeu_frame, text="Mini-jeu n°2\nAtteindre 10 000 cookies pour le débloquer", anchor="center",command=self.open_minijeu2, height=3, width=50, bg="#F1C8E1", state="disabled")
         self.minijeu_button2.pack(pady=20)
 
-        self.minijeu_button3= tk.Button(self.minijeu_frame, text="Mini-jeu n°3\nAtteindre 50 0000 cookies pour le débloquer", anchor="center", command=self.open_minijeu3, height=3, width=50, bg='#E2BFB3', state="disabled")
+        self.minijeu_button3= tk.Button(self.minijeu_frame, text="Mini-jeu n°3\nAtteindre 50 0000 cookies pour le débloquer", anchor="center", command=self.open_minijeu3, height=3, width=50, bg="#F1C8E1", state="disabled")
         self.minijeu_button3.pack(pady=20)
 
         self.star = PhotoImage(file="magical_star.png").subsample(3,3)
-        self.magical_button = tk.Button(self.minijeu_frame, image=self.star, bg='white', bd=0, relief=tk.SUNKEN,
-                                       highlightthickness=0, command=self.activate_all, activebackground="white")
+        self.magical_button = tk.Button(self.minijeu_frame, image=self.star, bg=self.application_instance.bg_main, bd=0, relief=tk.SUNKEN,
+                                       highlightthickness=0, command=self.activate_all, activebackground=self.application_instance.bg_main)
         self.magical_button.pack()
 
     def check_minijeu(self):

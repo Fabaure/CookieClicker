@@ -15,6 +15,7 @@ class Upgrade:
         self.upgrade_price1 = 10
         self.upgrade_price2 = 20
         self.upgrade_price3 = 500
+        self.upgrade_price4 = 1000
         self.avatar1 = 10000
         self.avatar2 = 50000
         self.avatar3 = 100000
@@ -22,6 +23,7 @@ class Upgrade:
         self.level_upgrade1 = 0
         self.level_upgrade2 = 0
         self.level_upgrade3 = 0
+        self.level_upgrade4 = 0
         self.create_widgets()
         self.refreshcount_upgrade()
         self.check_avatar()
@@ -30,8 +32,13 @@ class Upgrade:
         self.custom_font = font.Font(family="Cookies", size=10)
         self.imageB = tk.PhotoImage(file="BoutonUpgrade.png")
 
+
         self.upgrade_frame = tk.Frame(self.master, bg="white")
         self.upgrade_frame.place(relwidth=1, relheight=1)  # Expands frame to full window
+
+        # Ajouter le titre "Boutique"
+        self.title_label = tk.Label(self.upgrade_frame, text="Boutique", font=("Cookies", 60), bg='white', fg="#825D46")
+        self.title_label.pack(pady=20)
 
         self.upgrade_button1 = tk.Button(self.upgrade_frame, image=self.imageB,
                                          text="Auto-click\nPrix : " + str(self.upgrade_price1) + " Cookies",
@@ -43,7 +50,7 @@ class Upgrade:
 
         self.level_label1 = tk.Label(self.upgrade_frame, text="Niveau: " + str(self.level_upgrade1),
                                      font=self.custom_font, bg="white", fg="#612E18")
-        self.level_label1.place(x=450, y=240)
+        self.level_label1.place(x=500, y=240)
 
         self.upgrade_button2 = tk.Button(self.upgrade_frame, image=self.imageB, text=(
                                                                                          str(self.cookie_instance.cookie_multip + 1)) + " Cookies / Cliques\nPrix : " + str(
@@ -55,7 +62,7 @@ class Upgrade:
 
         self.level_label2 = tk.Label(self.upgrade_frame, text="Niveau: " + str(self.level_upgrade2),
                                      font=self.custom_font, bg="white", fg="#612E18")
-        self.level_label2.place(x=450, y=340)
+        self.level_label2.place(x=500, y=340)
 
         self.upgrade_button3 = tk.Button(self.upgrade_frame, image=self.imageB,
                                          text="Upgrade 3\nPrix : " + str(self.upgrade_price3) + " Cookies",
@@ -67,7 +74,19 @@ class Upgrade:
 
         self.level_label3 = tk.Label(self.upgrade_frame, text="Niveau: " + str(self.level_upgrade3),
                                      font=self.custom_font, bg="white", fg="#612E18")
-        self.level_label3.place(x=450, y=440)
+        self.level_label3.place(x=500, y=440)
+
+        self.upgrade_button4 = tk.Button(self.upgrade_frame, image=self.imageB,
+                                         text="Upgrade 4\nPrix : " + str(self.upgrade_price4) + " Cookies",
+                                         anchor="center", command=self.buy_5fois_cookie_all, borderwidth=0, bg="white",
+                                         compound=tk.CENTER, activebackground="white", font=self.custom_font,
+                                         fg="#612E18", activeforeground="#612E18", state="disabled")
+
+        self.upgrade_button4.place(x=150, y=500)
+
+        self.level_label4 = tk.Label(self.upgrade_frame, text="Niveau: " + str(self.level_upgrade4),
+                                     font=self.custom_font, bg="white", fg="#612E18")
+        self.level_label4.place(x=500, y=540)
 
 
         self.classy_button_image = PhotoImage(file="classy_cookie.png").subsample(2,2)
@@ -79,23 +98,23 @@ class Upgrade:
 
         self.avatar0_button = tk.Button(self.upgrade_frame, image=self.basic_button_image, bg="white",
                                         command=lambda: self.change_avatar(0), borderwidth=0, activebackground="white")
-        self.avatar0_button.place(x=750, y=50)
+        self.avatar0_button.place(x=750, y=150)
         self.avatar1_button = tk.Button(self.upgrade_frame, image=self.classy_button_image, bg="white",
                                         command=lambda: self.change_avatar(1),
                                          state="disabled", borderwidth=0, activebackground="white")
-        self.avatar1_button.place(x=600, y=200)
+        self.avatar1_button.place(x=600, y=300)
         self.avatar2_button = tk.Button(self.upgrade_frame, image=self.formal_button_image, bg="white",
                                         command=lambda: self.change_avatar(2),
                                          state="disabled", borderwidth=0, activebackground="white")
-        self.avatar2_button.place(x=900, y=200)
+        self.avatar2_button.place(x=900, y=300)
         self.avatar3_button = tk.Button(self.upgrade_frame, image=self.beach_button_image, bg="white",
                                         command=lambda: self.change_avatar(3),
                                          state="disabled", borderwidth=0, activebackground="white")
-        self.avatar3_button.place(x=600, y=350)
+        self.avatar3_button.place(x=600, y=450)
         self.avatar4_button = tk.Button(self.upgrade_frame, image=self.funny_button_image, bg="white",
                                         command=lambda: self.change_avatar(4),
                                          state="disabled", borderwidth=0, activebackground="white")
-        self.avatar4_button.place(x=900, y=350)
+        self.avatar4_button.place(x=900, y=450)
 
         self.star = PhotoImage(file="magical_star.png").subsample(3,3)
         self.magical_button = tk.Button(self.upgrade_frame, image=self.star, bg='white', bd=0, relief=tk.SUNKEN,
@@ -191,7 +210,7 @@ class Upgrade:
             self.cookie_instance.cookie_multip += 10
             self.upgrade_button2.config(text=(str(self.cookie_instance.cookie_multip+1))+" Cookies / Cliques\nPrix : " + str(self.upgrade_price2) + " Cookies")
         self.update_levels()
-    def buy_upgrade3(self):
+    def buy_5fois_cookie_all(self):
         if self.cookie_instance.cookie_count >= self.upgrade_price3:
             self.niveau_upgrade3 += 1
             self.cookie_instance.cookie_count -= self.upgrade_price2
@@ -208,6 +227,14 @@ class Upgrade:
                 self.upgrade_button3.config(state="disabled", text="All x5\nTemps restant: " + str(self.time_upgrade_3) + " secondes")
                 self.fct_fois_cookie_all()
         self.update_levels()
+
+    def fct_fois_cookie_all(self):
+        self.time_upgrade_3 -= 1
+        if self.time_upgrade_3 == 0 :
+            self.upgrade3 = False
+            self.upgrade_button3.config(state="disabled",text="All x5\nTemps restant: " + str(self.time_upgrade_3) + " secondes")
+        self.master.after(1000, self.fct_fois_cookie_all)
+
 #fonction pour demo prof (à enlever après)
     def activate_all(self):
         self.avatar1_button.config(state="normal")

@@ -14,14 +14,14 @@ class Cookie:
         self.create_widgets()
 
     def create_widgets(self):
-        self.cookie_frame = tk.Frame(self.master, bg="white")
+        self.cookie_frame = tk.Frame(self.master, bg=self.application_instance.bg_main)
         self.cookie_frame.pack(expand=True)
 
         self.label_cookie_count = tk.Label(self.cookie_frame, text="Cookie : " + str(self.cookie_count),
-                                           font=("Courier", 15), fg="black", bg="white")
+                                           font=("Courier", 15), fg="black", bg=self.application_instance.bg_main)
         self.label_cookie_count.pack(side="top", pady=20)
 
-        self.cookie_button = tk.Button(self.cookie_frame, image=self.image, bg='white', bd=0, relief=tk.SUNKEN,
+        self.cookie_button = tk.Button(self.cookie_frame, image=self.image, bg=self.application_instance.bg_main, bd=0, relief=tk.SUNKEN,
                                        highlightthickness=0, command=self.add_cookie, activebackground="white")
         self.cookie_button.pack()
 

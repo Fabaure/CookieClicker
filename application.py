@@ -7,6 +7,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from pygame import mixer
 from tkinter import messagebox
+from tkinter import font
 
 
 class Application:
@@ -19,6 +20,10 @@ class Application:
         self.indice = 0
         self.running = False
         self.time = 0
+        self.bg_main = "white"
+        self.bg_bar = "#F1C8E1"
+        self.font = "black"
+        self.label_titles = {}
 
     def MainMenu(self):
         self.menu_root = tk.Toplevel()
@@ -143,7 +148,6 @@ class Application:
         self.master.title("Cookie Clicker")
         self.indice = 1
 
-
     def update_time(self):
         if self.running:
             self.time += 1
@@ -162,7 +166,7 @@ class Application:
             self.update_time()
 
     def create_navigation_bar(self):
-        self.navigation_frame = tk.Frame(self.master, bg="#E2BFB3", relief=tk.SUNKEN)
+        self.navigation_frame = tk.Frame(self.master, bg=self.bg_bar, relief=tk.SUNKEN)
         self.navigation_frame.pack(side="top", fill="x")
 
         buttons = [("Cookie", lambda: self.show_page("Cookie")),
@@ -191,12 +195,18 @@ class Application:
             self.master.quit()
 
     def create_pages(self):
+        self.custom_fontCookie = font.Font(family="Cookies", size=100)
+        self.custom_fontOther = font.Font(family="Cookies", size=60)
         for page_name in ["Cookie", "Boutique", "Mini-Jeu", "Statistiques"]:
-            self.page = tk.Frame(self.master, bg="white")
+            self.page = tk.Frame(self.master, bg=self.bg_main)
             self.page.pack(fill="both", expand=True)
             self.pages[page_name] = self.page
-            self.label = tk.Label(self.page, text=page_name, font=("Helvetica", 18))
-            self.label.pack(pady=50)
+            if page_name == "Cookie":
+                self.labelTitle = tk.Label(self.page, text=page_name, font=self.custom_fontCookie, bg=self.bg_main, fg ="#825D46")
+            else:
+                self.labelTitle = tk.Label(self.page, text=page_name, font=self.custom_fontOther, bg=self.bg_main, fg="#825D46")
+            self.labelTitle.pack(pady=50)
+            self.label_titles[page_name] = self.labelTitle
 
         # ICI POUR DEFINIR LES PAGES
 
@@ -240,15 +250,61 @@ class Application:
         else:
             if dark_mode_var.get():
                 self.statebuttonDark = True
-                self.bg = "#212121"
+                self.bg_main = "#212121"
+                self.bg_bar = "#A2739B"
+                self.font = "white"
+                self.fontUpgrade = "white"
             else:
                 self.statebuttonDark = False
-                self.bg = "#effaff"
-            for pages_name in ["Cookie", "Boutique", "Mini-Jeu", "Statistiques"]:
-                self.pageBG = self.pages[pages_name]
-                self.pageBG.configure(bg=self.bg)
-            self.options_window.configure(bg=self.bg)
-            self.button_frame.configure(bg=self.bg)
+                self.bg_main = "white"
+                self.bg_bar = "#F1C8E1"
+                self.font="black"
+                self.fontUpgrade ="#612E18"
+
+            #Update Main
+            self.navigation_frame.configure(bg=self.bg_bar)
+            for page_name, page_frame in self.pages.items():
+                page_frame.configure(bg=self.bg_main)
+                label_title = self.label_titles[page_name]
+                label_title.configure(bg=self.bg_main)
+            self.options_window.configure(bg=self.bg_main)
+            self.button_frame.configure(bg=self.bg_main)
+
+            # Update Cookie
+            self.cookie_instance.cookie_frame.configure(bg=self.bg_main)
+            self.cookie_instance.label_cookie_count.configure(bg=self.bg_main, fg=self.font)
+            self.cookie_instance.cookie_button.configure(bg=self.bg_main)
+
+            # Update Statistique
+            self.stat_instance.stat_frame.configure(bg=self.bg_main)
+            self.stat_instance.time_label.configure(fg=self.font, bg=self.bg_main)
+            self.stat_instance.label_title.configure(fg=self.font, bg=self.bg_main)
+            self.stat_instance.label_clique_nbr.configure(fg=self.font,bg=self.bg_main)
+            self.stat_instance.label_cookie_nbr.configure(fg=self.font,bg=self.bg_main)
+            self.stat_instance.label_record_mn1.configure(fg=self.font,bg=self.bg_main)
+            self.stat_instance.label_record_mn2.configure(fg=self.font,bg=self.bg_main)
+            self.stat_instance.label_record_mn3.configure(fg=self.font,bg=self.bg_main)
+            self.stat_instance.rank_frame.configure(bg=self.bg_main)
+            self.stat_instance.label_rank.configure(fg=self.font, bg=self.bg_main)
+
+            # Update MiniJeu
+            self.minijeu.minijeu_frame.configure(bg=self.bg_main)
+            self.minijeu.magical_button.configure(bg=self.bg_main,activebackground=self.bg_main)
+
+            #Update Boutique
+            self.boutique.upgrade_frame.configure(bg=self.bg_main)
+            self.boutique.title_label.configure(bg=self.bg_main)
+            for button in [self.boutique.upgrade_button1, self.boutique.upgrade_button2, self.boutique.upgrade_button3, self.boutique.upgrade_button4]:
+                button.configure(bg=self.bg_main)
+            for level in [self.boutique.level_label1, self.boutique.level_label2, self.boutique.level_label3, self.boutique.level_label4]:
+                level.configure(fg=self.fontUpgrade)
+            for label in [self.boutique.level_label1, self.boutique.level_label2, self.boutique.level_label3, self.boutique.level_label4]:
+                label.configure(bg=self.bg_main)
+
+            for avatar_button in [self.boutique.avatar0_button, self.boutique.avatar1_button, self.boutique.avatar2_button, self.boutique.avatar3_button,
+                                  self.boutique.avatar4_button]:
+                avatar_button.configure(bg=self.bg_main)
+            self.boutique.magical_button.configure(bg=self.bg_main)
 
     def display_message(self, message):
         dialogue_frame = tk.Frame(self.master, bg="white", bd=2, relief=tk.SOLID)

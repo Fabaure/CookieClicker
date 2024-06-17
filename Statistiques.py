@@ -18,44 +18,44 @@ class Statistiques:
         self.create_widgets()
 
     def create_widgets(self):
-        self.stat_frame = tk.Frame(self.master, bg="white")
-        self.stat_frame.pack(expand=True, side="top")
+        self.stat_frame = tk.Frame(self.master, bg=self.app_instance.bg_main)
+        self.stat_frame.pack(expand=True)
 
-        self.time_label = tk.Label(self.stat_frame, text=f"Temps de jeu: 00:00:00", font=("Courier", 15), fg="black",
-                                    bg="white")
+        self.time_label = tk.Label(self.stat_frame, text=f"Temps de jeu: 00:00:00", font=("Courier", 15), fg=self.app_instance.font,
+                                    bg=self.app_instance.bg_main)
         self.time_label.pack(side="top", pady=20)
 
-        self.label_title = tk.Label(self.stat_frame, text="Voici les statistiques !", font=("Courier", 15), fg="black",
-                                    bg="white")
+        self.label_title = tk.Label(self.stat_frame, text="Voici les statistiques !", font=("Courier", 15), fg=self.app_instance.font,
+                                    bg=self.app_instance.bg_main)
         self.label_title.pack(side="top", pady=20)
 
         self.label_clique_nbr = tk.Label(self.stat_frame, text="Nombres de cliques : " + str(self.stat_clique),
-                                         font=("Courier", 15), fg="black", bg="white")
+                                         font=("Courier", 15), fg=self.app_instance.font, bg=self.app_instance.bg_main)
         self.label_clique_nbr.pack(pady=2)
 
         self.label_cookie_nbr = tk.Label(self.stat_frame, text="Record du nombres de cookie : " + str(self.stat_cookie),
-                                         font=("Courier", 15), fg="black", bg="white")
+                                         font=("Courier", 15), fg=self.app_instance.font, bg=self.app_instance.bg_main)
         self.label_cookie_nbr.pack(pady=2)
 
         self.label_record_mn1 = tk.Label(self.stat_frame,
                                          text="Record du mini-jeu 1 : " + str(self.record_mn1) + " Cookie",
-                                         font=("Courier", 15), fg="black", bg="white")
+                                         font=("Courier", 15), fg=self.app_instance.font, bg=self.app_instance.bg_main)
         self.label_record_mn1.pack(pady=2)
 
         self.label_record_mn2 = tk.Label(self.stat_frame,
                                          text="Record du mini-jeu 2 : " + str(self.record_mn2) + " Cookie",
-                                         font=("Courier", 15), fg="black", bg="white")
+                                         font=("Courier", 15), fg=self.app_instance.font, bg=self.app_instance.bg_main)
         self.label_record_mn2.pack(pady=2)
 
         self.label_record_mn3 = tk.Label(self.stat_frame,
                                          text="Record du mini-jeu 3 : " + str(self.record_mn3) + " Cookie",
-                                         font=("Courier", 15), fg="black", bg="white")
+                                         font=("Courier", 15), fg=self.app_instance.font, bg=self.app_instance.bg_main)
         self.label_record_mn3.pack(pady=2)
 
-        self.rank_frame = tk.Frame(self.master, bg="white")
+        self.rank_frame = tk.Frame(self.master, bg=self.app_instance.bg_main)
         self.rank_frame.pack(expand=True, side="bottom")
 
-        self.label_rank = tk.Label(self.rank_frame, text="Voici le classement général du Cookie Clicker !", font=("Courier", 15), fg="black",bg="white")
+        self.label_rank = tk.Label(self.rank_frame, text="Voici le classement général du Cookie Clicker !", font=("Courier", 15), fg=self.app_instance.font,bg=self.app_instance.bg_main)
         self.label_rank.pack(pady=10)
 
         self.listbox_scores = tk.Listbox(self.rank_frame,  width=50, height=20)
