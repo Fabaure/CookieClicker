@@ -19,7 +19,6 @@ class Application:
         mixer.init()  # Initialise la lecture audio de pygame
         self.running = False  # État du jeu
         # Initialisations à 0
-        self.indice = 0
         self.running = False
         self.time = 0
         self.bg_main = "white"
@@ -52,15 +51,56 @@ class Application:
         self.btn_jouer.pack(pady=10)
 
         # Bouton Options
-        self.btn_option = tk.Button(self.frame_bottom, text="Options", font=("Comic Sans Ms", 25),
-                                    command=self.create_options, highlightthickness=0, width=8)
-        self.btn_option.pack(pady=10)
+        self.btn_rules = tk.Button(self.frame_bottom, text="Règles", font=("Comic Sans Ms", 25),
+                                    command=self.create_rules, highlightthickness=0, width=8)
+        self.btn_rules.pack(pady=10)
 
         # Bouton Quitter
         self.btn_quitter = tk.Button(self.frame_bottom, text="Quitter", font=("Comic Sans Ms", 25),
                                      command=self.master.destroy, width=8)
         self.btn_quitter.pack(pady=10)
 
+
+    def create_rules(self):
+        self.rules_window = tk.Toplevel()
+        self.rules_window.title("Règles du jeu")
+        self.rules_window.configure(bg="white")
+
+        rules_text = (
+            "-----------------------------------Règles du jeu :-----------------------------------\n\n"
+            "-> Commencer le Jeu <-\n"
+            "Avant de commencer à jouer, entrez votre nom pour personnaliser votre partie.\n\n"
+            "-> Objectif Principal <-\n"
+            "Cliquez sur le cookie le plus de fois possible pour accumuler des cookies et atteindre différentes récompenses.\n\n"
+            "-> Améliorations <-\n"
+            "Utilisez vos cookies accumulés pour acheter des améliorations et optimiser votre production de cookies :\n\n"
+            "1. Autoclick : Permet à l'ordinateur d'incrémenter automatiquement le nombre de cookies.\n"
+            "2. Augmentation de clics par seconde : Augmente le nombre de cookies reçus par clic.\n"
+            "3. Doubleur de cookies : Double immédiatement votre nombre de cookies actuels.\n\n"
+            "-> Avatars <-\n"
+            "Débloquez et personnalisez votre cookie avec différents avatars :\n"
+            "- Atteignez des paliers spécifiques pour débloquer de nouveaux avatars (ex. : Avatar de la plage à 100 000 cookies).\n"
+            "- Changez votre avatar à tout moment pour utiliser ceux que vous avez déjà débloqués.\n\n"
+            "-> Mini-jeux <-\n"
+            "Accédez à différents mini-jeux pour varier les plaisirs et obtenir des récompenses supplémentaires :\n"
+            "- Débloquez les mini-jeux en atteignant des paliers spécifiques.\n"
+            "- Les mini-jeux seront disponibles à nouveau après un certain temps.\n\n"
+            "-> Statistiques <-\n"
+            "Consultez vos statistiques pour suivre vos progrès et battre vos records :\n"
+            "- Meilleurs scores dans les différents mini-jeux.\n"
+            "- Maximum de cookies accumulés.\n"
+            "- Nombre total de clics manuels sur le cookie principal.\n"
+            "- Anciens records de parties précédentes.\n"
+            "- Durée de la partie en cours avec un chrono intégré.\n\n"
+            "-> Options <-\n"
+            "Personnalisez votre expérience de jeu grâce aux options disponibles :\n"
+            "- Choisissez parmi différentes musiques pour accompagner votre session de jeu.\n"
+            "- Activez le mode sombre pour un affichage plus agréable dans les environnements peu éclairés.\n\n"
+            "Amusez-vous bien!"
+        )
+        rules_label = tk.Label(self.rules_window, text=rules_text,
+                               bg='white', font= ("Comic Sans Ms", 8)) # Création d'un label avec les règles du jeu
+        rules_label.pack(side="left")
     def create_options(self):
         # Méthode pour créer la fenêtre des options
         self.options_window = tk.Toplevel()
@@ -254,77 +294,68 @@ class Application:
 
     def update_background_color(self, dark_mode_var):
         # Méthode pour mettre à jour la couleur de fond en fonction du mode sombre ou clair
-        if self.indice == 0:  # Si l'application est au menu principal
-            if dark_mode_var.get():
-                self.statebuttonDark = True
-                self.bg = "#212121"
-            else:
-                self.statebuttonDark = False
-                self.bg = "#effaff"
-            # Met à jour la couleur de fond pour les différents éléments du menu principal
-            self.menu_root.configure(bg=self.bg)
-            self.frame_bottom.configure(bg=self.bg)
-            self.label_logo.configure(bg=self.bg)
-            self.options_window.configure(bg=self.bg)
-            self.button_frame.configure(bg=self.bg)
-        else:  # Si l'application est sur une des pages du jeu
-            if dark_mode_var.get():
-                self.statebuttonDark = True
-                self.bg_main = "#212121"
-                self.bg_bar = "#A2739B"
-                self.font = "white"
-                self.fontUpgrade = "white"
-            else:
-                self.statebuttonDark = False
-                self.bg_main = "white"
-                self.bg_bar = "#F1C8E1"
-                self.font="black"
-                self.fontUpgrade ="#612E18"
+        if dark_mode_var.get():
+            self.statebuttonDark = True
+            self.bg_main = "#212121"
+            self.bg_bar = "#A2739B"
+            self.font = "white"
+            self.fontUpgrade = "white"
+        else:
+            self.statebuttonDark = False
+            self.bg_main = "white"
+            self.bg_bar = "#F1C8E1"
+            self.font="black"
+            self.fontUpgrade ="#612E18"
 
             #Update Main
-            self.navigation_frame.configure(bg=self.bg_bar)
-            for page_name, page_frame in self.pages.items():
-                page_frame.configure(bg=self.bg_main)
-                label_title = self.label_titles[page_name]
-                label_title.configure(bg=self.bg_main)
-            self.options_window.configure(bg=self.bg_main)
-            self.button_frame.configure(bg=self.bg_main)
+        self.navigation_frame.configure(bg=self.bg_bar)
+        for page_name, page_frame in self.pages.items():
+            page_frame.configure(bg=self.bg_main)
+            label_title = self.label_titles[page_name]
+            label_title.configure(bg=self.bg_main)
+        self.options_window.configure(bg=self.bg_main)
+        self.button_frame.configure(bg=self.bg_main)
 
             # Update Cookie
-            self.cookie_instance.cookie_frame.configure(bg=self.bg_main)
-            self.cookie_instance.label_cookie_count.configure(bg=self.bg_main, fg=self.font)
-            self.cookie_instance.cookie_button.configure(bg=self.bg_main)
+        self.cookie_instance.cookie_frame.configure(bg=self.bg_main)
+        self.cookie_instance.label_cookie_count.configure(bg=self.bg_main, fg=self.font)
+        self.cookie_instance.cookie_button.configure(bg=self.bg_main, activebackground=self.bg_main)
 
             # Update Statistique
-            self.stat_instance.stat_frame.configure(bg=self.bg_main)
-            self.stat_instance.time_label.configure(fg=self.font, bg=self.bg_main)
-            self.stat_instance.label_title.configure(fg=self.font, bg=self.bg_main)
-            self.stat_instance.label_clique_nbr.configure(fg=self.font,bg=self.bg_main)
-            self.stat_instance.label_cookie_nbr.configure(fg=self.font,bg=self.bg_main)
-            self.stat_instance.label_record_mn1.configure(fg=self.font,bg=self.bg_main)
-            self.stat_instance.label_record_mn2.configure(fg=self.font,bg=self.bg_main)
-            self.stat_instance.label_record_mn3.configure(fg=self.font,bg=self.bg_main)
-            self.stat_instance.rank_frame.configure(bg=self.bg_main)
-            self.stat_instance.label_rank.configure(fg=self.font, bg=self.bg_main)
+        self.stat_instance.stat_frame.configure(bg=self.bg_main)
+        self.stat_instance.time_label.configure(fg=self.font, bg=self.bg_main)
+        self.stat_instance.label_title.configure(fg=self.font, bg=self.bg_main)
+        self.stat_instance.label_clique_nbr.configure(fg=self.font,bg=self.bg_main)
+        self.stat_instance.label_cookie_nbr.configure(fg=self.font,bg=self.bg_main)
+        self.stat_instance.label_record_mn1.configure(fg=self.font,bg=self.bg_main)
+        self.stat_instance.label_record_mn2.configure(fg=self.font,bg=self.bg_main)
+        self.stat_instance.label_record_mn3.configure(fg=self.font,bg=self.bg_main)
+        self.stat_instance.rank_frame.configure(bg=self.bg_main)
+        self.stat_instance.label_rank.configure(fg=self.font, bg=self.bg_main)
 
             # Update MiniJeu
-            self.minijeu.minijeu_frame.configure(bg=self.bg_main)
-            self.minijeu.magical_button.configure(bg=self.bg_main,activebackground=self.bg_main)
+        self.minijeu.minijeu_frame.configure(bg=self.bg_main)
+        self.minijeu.magical_button.configure(bg=self.bg_main,activebackground=self.bg_main)
 
             #Update Boutique
-            self.boutique.upgrade_frame.configure(bg=self.bg_main)
-            self.boutique.title_label.configure(bg=self.bg_main)
-            for button in [self.boutique.upgrade_button1, self.boutique.upgrade_button2, self.boutique.upgrade_button3, self.boutique.upgrade_button4]:
-                button.configure(bg=self.bg_main)
-            for level in [self.boutique.level_label1, self.boutique.level_label2, self.boutique.level_label3, self.boutique.level_label4]:
-                level.configure(fg=self.fontUpgrade)
-            for label in [self.boutique.level_label1, self.boutique.level_label2, self.boutique.level_label3, self.boutique.level_label4]:
-                label.configure(bg=self.bg_main)
+        self.boutique.upgrade_frame.configure(bg=self.bg_main)
+        self.boutique.title_label.configure(bg=self.bg_main)
+        for button in [self.boutique.upgrade_button1, self.boutique.upgrade_button2, self.boutique.upgrade_button3, self.boutique.upgrade_button4]:
+            button.configure(bg=self.bg_main)
 
-            for avatar_button in [self.boutique.avatar0_button, self.boutique.avatar1_button, self.boutique.avatar2_button, self.boutique.avatar3_button,
-                                  self.boutique.avatar4_button]:
-                avatar_button.configure(bg=self.bg_main)
-            self.boutique.magical_button.configure(bg=self.bg_main)
+        for label in [self.boutique.level_label1, self.boutique.level_label2, self.boutique.level_label3, self.boutique.level_label4]:
+            label.configure(bg=self.bg_main)
+            label.configure(fg=self.fontUpgrade)
+
+        for avatar_button in [self.boutique.avatar0_button, self.boutique.avatar1_button, self.boutique.avatar2_button, self.boutique.avatar3_button,
+                                self.boutique.avatar4_button]:
+            avatar_button.configure(bg=self.bg_main)
+
+        for label in [self.boutique.avatar_label1, self.boutique.avatar_label2, self.boutique.avatar_label3, self.boutique.avatar_label4]:
+            label.configure(bg=self.bg_main)
+            label.configure(fg=self.fontUpgrade)
+
+        self.boutique.magical_button.configure(bg=self.bg_main)
 
     def display_message(self, message):
         # Méthode pour afficher un message temporaire à l'utilisateur
