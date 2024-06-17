@@ -105,7 +105,7 @@ class Application:
         # Méthode pour créer la fenêtre des options
         self.options_window = tk.Toplevel()
         self.options_window.title("Options")
-        self.options_window.configure(bg=self.bg)
+        self.options_window.configure(bg=self.bg_main)
 
         # Label pour choisir la musique
         self.label_music = tk.Label(self.options_window, text="Choisir la musique OST:")
