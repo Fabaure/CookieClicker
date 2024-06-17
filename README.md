@@ -14,8 +14,8 @@ Cliquez sur le cookie autant de fois que possible pour accumuler des cookies et 
 ### Améliorations
 Utilisez vos cookies accumulés pour acheter des améliorations et optimiser votre production de cookies :
 - **Autoclick** : Permet à l'ordinateur d'augmenter automatiquement le nombre de cookies.
-- **Clics par Seconde** : Augmente le nombre de cookies reçus par clic.
-- **Doubleur de Cookies** : Double immédiatement votre nombre actuel de cookies.
+- **Clics par Seconde** : Augmente de 10 en 10 le nombre de cookies reçus par clic.
+- **Roue de la fortune** : Une récompense aléatoire ajoutée au compteur. Un tour gratuit, dès le début de la partie ! 
 
 ### Avatars
 Débloquez et personnalisez votre cookie avec différents avatars :
