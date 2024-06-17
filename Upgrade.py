@@ -108,29 +108,45 @@ class Upgrade:
         # Boutons pour changer les avatars
         self.avatar0_button = tk.Button(self.upgrade_frame, image=self.basic_button_image, bg="white",
                                         command=lambda: self.change_avatar(0), borderwidth=0, activebackground="white")
-        self.avatar0_button.place(x=750, y=150)
+        self.avatar0_button.place(x=840, y=120)
+
         self.avatar1_button = tk.Button(self.upgrade_frame, image=self.classy_button_image, bg="white",
                                         command=lambda: self.change_avatar(1),
-                                         state="disabled", borderwidth=0, activebackground="white")
-        self.avatar1_button.place(x=600, y=300)
+                                        state="disabled", borderwidth=0, activebackground="white")
+        self.avatar1_button.place(x=680, y=250)
+
+        self.avatar_label1 = tk.Label(self.upgrade_frame, text="Se débloque à 10 000 cookies", bg="white", fg="#612E18")
+        self.avatar_label1.place(x=690, y=390)
+
         self.avatar2_button = tk.Button(self.upgrade_frame, image=self.formal_button_image, bg="white",
                                         command=lambda: self.change_avatar(2),
-                                         state="disabled", borderwidth=0, activebackground="white")
-        self.avatar2_button.place(x=900, y=300)
+                                        state="disabled", borderwidth=0, activebackground="white")
+        self.avatar2_button.place(x=1000, y=250)
+
+        self.avatar_label2 = tk.Label(self.upgrade_frame, text="Se débloque à 50 000 cookies", bg="white", fg="#612E18")
+        self.avatar_label2.place(x=1010, y=390)
+
         self.avatar3_button = tk.Button(self.upgrade_frame, image=self.beach_button_image, bg="white",
                                         command=lambda: self.change_avatar(3),
-                                         state="disabled", borderwidth=0, activebackground="white")
-        self.avatar3_button.place(x=600, y=450)
+                                        state="disabled", borderwidth=0, activebackground="white")
+        self.avatar3_button.place(x=680, y=420)
+
+        self.avatar_label3 = tk.Label(self.upgrade_frame, text="Se débloque à 100 000 cookies", bg="white", fg="#612E18")
+        self.avatar_label3.place(x=690, y=560)
+
         self.avatar4_button = tk.Button(self.upgrade_frame, image=self.funny_button_image, bg="white",
                                         command=lambda: self.change_avatar(4),
-                                         state="disabled", borderwidth=0, activebackground="white")
-        self.avatar4_button.place(x=900, y=450)
+                                        state="disabled", borderwidth=0, activebackground="white")
+        self.avatar4_button.place(x=1000, y=420)
+
+        self.avatar_label4 = tk.Label(self.upgrade_frame, text="Se débloque à 500 000 cookies", bg="white", fg="#612E18")
+        self.avatar_label4.place(x=1010, y=560)
 
         # Bouton magique pour activer tous les boutons (pour la démonstration)
         self.star = PhotoImage(file="magical_star.png").subsample(3,3)
         self.magical_button = tk.Button(self.upgrade_frame, image=self.star, bg='white', bd=0, relief=tk.SUNKEN,
                                        highlightthickness=0, command=self.activate_all, activebackground="white")
-        self.magical_button.place(x=1020, y=80)
+        self.magical_button.place(x=1060, y=50)
 
     def update_levels(self):
         # Mise à jour des niveaux des améliorations dans les labels

@@ -183,7 +183,7 @@ class Application:
     def create_navigation_bar(self):
         # Méthode pour créer la barre de navigation en haut de l'interface
         self.navigation_frame = tk.Frame(self.master, bg=self.bg_bar, relief=tk.SUNKEN)
-        self.navigation_frame = tk.Frame(self.master, bg="#E2BFB3", relief=tk.SUNKEN)
+        self.navigation_frame = tk.Frame(self.master, bg="#F1C8E1", relief=tk.SUNKEN)
         self.navigation_frame.pack(side="top", fill="x")
         # Liste des boutons de navigation
         buttons = [("Cookie", lambda: self.show_page("Cookie")),
@@ -194,18 +194,18 @@ class Application:
         # Crée chaque bouton dans la barre de navigation
         for text, command in buttons:
             self.button = tk.Button(self.navigation_frame, text=text, command=command, font=("Helvetica", 14), height=2,
-                                    width=15)
+                                    width=15, bg="white")
             self.button.pack(side="left", padx=20, pady=10)
 
         # Bouton Quitter
         self.button_quit = tk.Button(self.navigation_frame, text="Quitter", command=self.save_and_quit,
-                                     font=("Helvetica", 14),
+                                     font=("Helvetica", 14), bg="white",
                                      height=2, width=15)
         self.button_quit.pack(side="right", padx=20, pady=10)
 
         # Bouton Options
         self.option = tk.Button(self.navigation_frame, text="Options", command=self.create_options,
-                                font=("Helvetica", 14),
+                                font=("Helvetica", 14), bg="white",
                                 height=2, width=15)
         self.option.pack(side="right", padx=20, pady=10)
 
